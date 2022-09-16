@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+<!-- #% load bootstrap  %} -->
+{% load static %}
+{% block body_block %}
+
+<h1>Equipment Page List</h1>
+<h3>Hello {{user.username}}</h3>
+<!-- Adding the filter form here -->
+<div class="row">
+	<div class="col">
+		<div class="card card-body"  >
+			<form  method="GET" >
+				<table>
+					{{ filter.form.as_table}}
+				</table>
+				<button type="submit" class="btn btn-primary" >Search</button>
+				<a class="btn btn-outline-dark" href="{% url 'equipment_new' %}">Add New Asset</a>
+				{#}<a class="btn btn-outline-dark" href="{% url 'equipment_maintenance_detail' %}">Equipment maintenance</a>#}
+			</form>
+		</div>
+	</div>
+</div>
+
+<br>
+<table class="table table-striped">
+	<thead >
+		<tr>
+			<th scope="col">Asset No</th>
+			<th scope="col">Serial No</th>
+			<th scope="col">Description</th>
+			<th scope="col">BU</th>
+			<th scope="col">Location</th>
+			<th scope="col">Link</th>
+			<th scope="col">Update</th>
+			{% if user.is_superuser   %}
+			<th scope="col">Delete</th>
+			{% endif %}
+		</tr>
+	</thead>
+	<tbody>
+		{#}<!-- <p> No of items... <strong>{{filter.qs.count}}</strong></p> -->#}
+		<p> No of items... <strong>{{object_list.count}}</strong></p>
+		{% for equip in object_list %}
+		{#}{% for equip in filter.qs %}#}
+		<tr>
+			<th scope="row"> <a href="{% url 'equipment_detail' pk=equip.pk %}">{{ equip.asset_num }}</a></th>
+			{#}<th scope="row"> <a href="#">{{ equip.asset_num }}</a></th>#}
+			<td>{{ equip.serial_num }}</td>
+			<td>{{ equip.description }}</td>
+			<td>{{ equip.BU }}</td>
+			<td>{{ equip.temp_location }}</td>
+			{%if equip.file_link != null%}
+			<td><a href="{{ equip.file_link}}" target="_blank">Link</a></td>
+			{%else%}
+			<td></td>
+			{% endif %}
+			<td><a href="{%url 'equipment_update' pk=equip.pk%}" class="btn btn-outline-dark"> <span class="fa fa-clone"></a></td>
+			{#}<td><a href="#" class="btn btn-outline-dark"> <span class="fa fa-clone"></a></td>#}
+			{% if user.is_superuser   %}
+			<td><a href="{%url 'equipment_delete' pk=equip.pk %}"class="btn btn-outline-dark"><span class="fa fa-eraser"></a></td>
+			{#}<td><a href="#"class="btn btn-outline-dark"><span class="fa fa-eraser"></a></td>#}
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<br>
+{% endblock %}
+
+<!-- {% block scripts  %} -->
+<!-- {{block.super}} -->
+<!-- <script src="{% static 'js/equipmentScript.js'  %}"></script> -->
+<!-- {% endblock %} -->

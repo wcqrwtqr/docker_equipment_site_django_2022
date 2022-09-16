@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% load humanize %}
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Test file</title>
+    </head>
+    <body>
+
+        <div class=conainer align='middle'>
+
+            <h2>Asset No : {{ far.asset_num	}}</h2>
+            <h2>Serial No :  {{ far.serial_num	}}</h2>
+            <h3>Description :{{ far.description	}}</h3>
+            <h3>BU  : {{ far.BU	}}</h3>
+            <h3>BL  :  {{ far.BL	}}</h3>
+            <h3>Temp Location  : {{ far.temp_location }}</h3>
+            <h3>Asset Life  : {{ far.asset_life	}}</h3>
+            <h3>Acquisition Date  : {{ far.acquisition_date	}}</h3>
+            <h3>Acquisition Cost  :   {{ far.acquisition_cost|intcomma}}</h3>
+            <h3>Total Depreciation  :   {{ far.tot_dep_value|intcomma}}</h3>
+            <h3>NBV  :   {{ far.nbv|intcomma}}</h3>
+
+        </div>
+
+    </body>
+</html>

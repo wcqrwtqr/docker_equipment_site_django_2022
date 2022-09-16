@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+<!-- Start the login process -->
+
+{% if user.is_authenticated   %}
+<div class="container">
+  <h2>Hi {{ user.username   }}</h2>
+  <h1>This is the about page</h1>
+  <p>You are all set to go </p>
+  <p>Feel free to view all the company data</p>
+  {#}<a href="#"class="btn btn-outline-dark">LOG OUT</a>#}
+  {#}<a href="{%url 'logout'%}"class="btn btn-outline-dark">LOG OUT</a>#}
+  <a href="#"class="btn btn-outline-dark">LOG OUT</a>
+</div>
+{% else  %}
+<h2>This is our company and its great</h2> 
+<h2>Try to join us</h2> 
+{#}<a href="{%url 'login'%}"class="btn btn-outline-dark">LOGIN</a>#}
+<a href="#"class="btn btn-outline-dark">LOGIN</a>
+{% endif %}
+
+{% endblock %}
+
+

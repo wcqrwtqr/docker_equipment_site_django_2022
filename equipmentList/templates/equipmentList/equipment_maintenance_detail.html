@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+<!-- {#% load humanize %} -->
+
+{% block body_block %}
+
+<div class="card ">
+  <div class="card-header">
+    <h3>Equipment Maintenance Detail view</h3>
+    <br/>
+    <!-- <h4>Description : <strong>{{filter.qs}}</strong></h4> -->
+  </div>
+  {% for fa in filter.qs%}
+  <p>{{fa.asset.serial_num}}</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">MS Type</th>
+        <th scope="col">MS Date</th>
+        <th scope="col">Description</th>
+        <th scope="col">Cost</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{ fa.ms_type }}</td>
+        <td>{{ fa.main_date_start }}</td>
+        <td>{{ fa.description }}</td>
+        <td>{{ fa.main_cost }}</td>
+        {%endfor%}
+      </tr>
+    </tbody>
+  </table >
+
+  <hr/>
+  <a class="btn btn-primary " href="{% url 'equipment' %}">Back to equipment</a>
+  <div class="card-footer text-muted">
+  </div>
+</div>
+
+
+{% endblock %}
+
+
