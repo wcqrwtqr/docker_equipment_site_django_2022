@@ -25,3 +25,6 @@ docker-compose up -d
 
 docker-compose down
 ```
+
+Note:
+Make sure the env file is updated with the correct values for postgres database and django secret key before running the container 
