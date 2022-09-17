@@ -1,14 +1,15 @@
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
-# from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import  login_required
 from django.urls import reverse_lazy
 from django import forms
 from .forms import EquipmentForm
 from . import models
 from django.contrib.auth.mixins import PermissionRequiredMixin
+# from django.shortcuts import render, get_object_or_404, redirect
 # from django.db.models import Q
 # from equipmentMaintenance.models import MaintenanceDB
 # from .filters import EquipmentFilter, EquipmentMaintenanceFilter
+from .filters import EquipmentFilter
 # from django.http import HttpResponse
 from django.template.loader import get_template
 # from xhtml2pdf import pisa
@@ -21,7 +22,7 @@ class EquipmentListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        # context['filter'] = EquipmentFilter(self.request.GET, queryset=self.queryset)
+        context['filter'] = EquipmentFilter(self.request.GET, queryset=self.queryset)
         return context
 
 # # Getting the equipment vs maintenance views and filtering them

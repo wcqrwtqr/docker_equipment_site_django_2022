@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+<h1>Maintenance Page</h1>
+<h3>Hello {{user.username}}</h3>
+<div class="row">
+	<div class="col">
+		<div class="card card-body" >
+			<!-- I liked this method below as it shows the table in a better way -->
+			<form  method="GET" >
+				<table>
+					{{ filter.form.as_table}}
+				</table>
+				<button type="submit" class="btn btn-primary" >Search</button>
+				<a class="btn btn-outline-dark" href="{% url 'maintenance_new' %}">Add New Maintenance</a>
+			</form>
+		</div>
+	</div>
+</div>
+<br>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">Asset No</th>
+			<th scope="col">Serial No</th>
+			<th scope="col">Maintenance Type</th>
+			<th scope="col">Maintenance Start</th>
+			<th scope="col">Maintenance Expiry</th>
+			<th scope="col">Description</th>
+			<th scope="col">Main Cost</th>
+			<th scope="col">Link</th>
+			<th scope="col">Update</th>
+			{% if user.is_superuser   %}
+			<th scope="col">Delete</th>
+			{% endif %}
+			<!-- <th scope="col">PDF</th> -->
+		</tr>
+	</thead>
+	<tbody>
+		<!-- {#<p>No of items...{{object_list.count}}</p>#} -->
+		<p>No of items...{{filter.qs.count}}</p>
+		{% for fa in filter.qs %}
+		{#{% for fa in object_list %}#}
+		<tr>
+			<th scope="row"> <a href="{% url 'maintenance_detail' pk=fa.pk  %}">{{ fa.asset.asset_num }}</a></th>
+			<td>{{ fa.asset.serial_num }}</td>
+			<td>{{ fa.ms_type  }}</td>
+			<td>{{ fa.main_date_start }}</td>
+			<td>{{ fa.main_date_end }}</td>
+			<td>{{ fa.description }}</td>
+			<td>{{ fa.main_cost  }}</td>
+			{%if fa.file_link != null%}
+			<td><a href="{{ fa.file_link}}" target="_blank">Link</a></td>
+			{%else%}
+			<td></td>
+			{% endif %}
+			<td><a href="{% url 'maintenance_update' pk=fa.pk  %}" class="btn btn-outline-dark"><span class="fa fa-clone"></a></td>
+			{% if user.is_superuser   %}
+			<td><a href="{% url 'maintenance_delete' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-eraser"></a></td>
+			{% endif %}
+			<!-- <td><a href="{#% url 'pdf_maintenance_view' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-pencil"></a></td> -->
+		</tr>
+		{% endfor %}
+		
+	</tbody>
+	<tfoot>
+		<tr>
+			<td scope="col"></td>
+			<td scope="col"></td>
+			<td scope="col"></td>
+			<td scope="col"></td>
+			<td scope="col"></td>
+			<td scope="col"></td>
+			<!-- TODO  Find a way to get the total cost of the maintenace of all items-->
+			<td scope="col">{{filter.get_total_cost}}</td>
+			<td scope="col"></td>
+			<td scope="col"></td>
+		</tr>
+	</tfoot>
+</table >
+{% endblock %}
+
+

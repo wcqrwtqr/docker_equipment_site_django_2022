@@ -16,8 +16,8 @@ class EQUIPMENT_DB(models.Model):
     temp_location = models.CharField(max_length=200, blank=True, null=True)
     file_link = models.URLField(max_length=200, null=True, blank=True)
 
-    # def get_absolute_url(self):
-    #     return reverse('equipment_detail', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('equipment_detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return '%s %s'% (self.asset_num, self.serial_num)

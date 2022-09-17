@@ -12,6 +12,6 @@ urlpatterns = [
     path('equipment/<int:pk>/delete/', views.EquipmentDeleteView.as_view(),
          name='equipment_delete'),
     # path('pdf/<int:pk>', views.equipment_render_pdf_view,
-    # name='equipment_pdf'),
+    #                       name='equipment_pdf'),
     # path('equipment/maintenace/', views.EquipmentMaintenanceListView.as_view(), name='equipment_maintenance_detail'),
 ]

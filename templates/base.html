@@ -27,8 +27,8 @@
 						{#}<a class="nav-link" href="#">Equipment</a>#}
 					</li>
 					<li class="nav-item">
-						{#}<a class="nav-link" href="{%url 'maintenance'%}">Maintenance</a>#}
-						<a class="nav-link" href="#">Maintenance</a>
+						<a class="nav-link" href="{%url 'maintenance'%}">Maintenance</a>
+						<!-- <a class="nav-link" href="#">Maintenance</a> -->
 					</li>
 					<li class="nav-item">
 						{#}<a class="nav-link" href="{%url 'jobs'%}">Jobs</a>#}
@@ -41,8 +41,8 @@
 					</li>
 					{% endif %}
 					<li class="nav-item ">
-						{#}<a class="nav-link " href=" {% url 'logout'  %}">Logout</a>#}
-						<a class="nav-link " href="#">Logout</a>
+						<a class="nav-link " href=" {% url 'logout'  %}">Logout</a>
+						<!-- <a class="nav-link " href="#">Logout</a> -->
 					</li>
 					{% else  %}
 					<li class="nav-item">
@@ -62,6 +62,7 @@
 			{% else  %}
 			<h2>You are not logged in</h2>
 			<a href="{%url 'login'%}"class="btn btn-outline-dark">LOGIN</a>
+			<!-- <a href="#"class="btn btn-outline-dark">LOGIN</a> -->
 			{% endif %}
 
 			{% block body_block_login %}

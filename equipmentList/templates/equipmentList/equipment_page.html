@@ -38,10 +38,10 @@
 		</tr>
 	</thead>
 	<tbody>
-		{#}<!-- <p> No of items... <strong>{{filter.qs.count}}</strong></p> -->#}
-		<p> No of items... <strong>{{object_list.count}}</strong></p>
-		{% for equip in object_list %}
-		{#}{% for equip in filter.qs %}#}
+		<p> No of items... <strong>{{filter.qs.count}}</strong></p>
+		{#<!-- <p> No of items... <strong>{{object_list.count}}</strong></p> -->#}
+		{#{% for equip in object_list %}#}
+		{% for equip in filter.qs %}
 		<tr>
 			<th scope="row"> <a href="{% url 'equipment_detail' pk=equip.pk %}">{{ equip.asset_num }}</a></th>
 			{#}<th scope="row"> <a href="#">{{ equip.asset_num }}</a></th>#}
