@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+<!-- {#% load crispy_forms_tags %} -->
+
+{% block body_block %}
+<h1>Add equipmet to job</h1>
+
+<form method="POST" class="post-form">
+    <!-- Try the dropdown list option-->
+    <input name="Test" type="text" value="Test" id="job_id_input"/>
+    <div id="box">
+    </div>
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-success">Save</button>
+    <a class="btn btn-outline-dark" href="{% url 'jobs' %}">Cancel</a>
+    <br>
+</form>
+
+<!-- Try the dropdown list option by JS-->
+<script>
+    const input = document.getElementById("job_id_input")
+    const box = document.getElementById("box")
+    const dataList = document.getElementById('id_job')
+    const arr = dataList.textContent.toLowerCase().split('\n')
+    const dataArray = arr.filter(function(e){return e})
+    let filterjobs = []
+    input.addEventListener('keyup', (e)=>{
+      filterjobs = dataArray.filter(item=> item.includes(e.target.value.toLowerCase())) 
+      // console.log(filterjobs)
+      box.innerHTML = ""
+      if (filterjobs.length > 0){
+        filterjobs.map(item=>{
+          box.innerHTML += `<b>${item}</b><br>`
+        }) 
+      }else {
+        box.innerHTML += "<b>No items</b>"
+      }
+    })
+    </script>
+{% endblock %}

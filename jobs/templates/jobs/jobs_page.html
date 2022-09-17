@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body_block %}
+
+
+<h1>Jobs Main Page</h1>
+<h3>Hello {{user.username}}</h3>
+<div class="row">
+	<div class="col">
+		<div class="card card-body" >
+			<form  method="GET" >
+				<table>
+					{{ filter.form.as_table}}
+				</table>
+				<button type="submit" class="btn btn-primary" >Search</button>
+				<a class="btn btn-outline-dark" href="{% url 'jobs_new' %}">Add new Job</a>
+<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_equipment_add' %}">Assign equipment to job</a>#} -->
+<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_master_info' %}">List of euqipment in jobs</a>#} -->
+			</form>
+		</div>
+	</div>
+</div>
+
+<br>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col">ID</th>
+			<th scope="col">Client</th>
+			<th scope="col">Well</th>
+			<th scope="col">Contract</th>
+			<th scope="col">BL</th>
+			<th scope="col">BU</th>
+			<th scope="col">Start Date</th>
+			<th scope="col">End Date</th>
+			<th scope="col">H2S</th>
+			<th scope="col">CO2</th>
+			<th scope="col">GenID</th>
+			<th scope="col">Link</th>
+			{% if user.is_superuser   %}
+			<th scope="col">Update</th>
+			<th scope="col">Delete</th>
+			{% endif %}
+			<!-- <th scope="col">PDF</th> -->
+		</tr>
+	</thead>
+	<tbody>
+		<p> No of items... <strong>{{filter.qs.count}}</strong></p>
+		{% for fa in filter.qs %}
+		<tr>
+			<th scope="row"> <a href="{% url 'jobs_detail' pk=fa.pk  %}">{{ fa.JOBID }}</a></th>
+			<td>{{ fa.client }}</td>
+			<td>{{ fa.well }}</td>
+			<td>{{ fa.isContract }}</td>
+			<td>{{ fa.BL }}</td>
+			<td>{{ fa.BU}}</td>
+			<td>{{ fa.startDate}}</td>
+			<td>{{ fa.endDate}}</td>
+			<td>{{ fa.h2s}}</td>
+			<td>{{ fa.co2}}</td>
+			<td>{{ fa.gen_JOBID}}</td>
+			{%if fa.file_link != null%}
+			<td><a href="{{ fa.file_link}}" target="_blank">Link</a></td>
+			{%else%}
+			<td></td>
+			{% endif %}
+			{% if user.is_superuser   %}
+			<td><a href="{% url 'jobs_update' pk=fa.pk  %}" class="btn btn-outline-dark"> <span class="fa fa-clone"></a></td>
+			<td><a href="{% url 'jobs_delete' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-eraser">  </a></td>
+			{% endif %}
+			<!-- <td><a href="{#% url 'pdf_job_view' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-pencil"></a></td> -->
+		</tr>
+		{% endfor %}
+	</tbody>
+</table >
+
+
+{% endblock %}
+
+{% block scripts  %}
+{{block.super}}
+<script src="{% static 'js/jobScript.js'  %}"></script>
+{% endblock %}
+

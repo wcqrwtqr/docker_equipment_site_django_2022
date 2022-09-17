@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Test file</title>
+    </head>
+    <body>
+
+
+
+        <div class=conainer align='middle'>
+            <h1>Job ID:  {{ job.JOBID }}</h1>
+            <h2>Client : {{ job.client	}}</h2>
+            <hr>
+            <h3>Field :  {{ job.field	}}</h3>
+            <h3>Well Name :{{ job.well	}}</h3>
+            <h4>BU  : {{ job.BU	}}</h4>
+            <h4>BL  :  {{ job.BL	}}</h4>
+            <h4>Job Description:  <br>
+                {{ job.description|linebreaks}}</h4>
+            <h4>Is Contract  : {{ job.isContract }}</h4>
+            <h4>Start Date  :   {{ job.startDate}}</h4>
+            <h4>End Date  :   {{ job.endDate}}</h4>
+
+            <!-- using the image.path seems the only way to display the image -->
+            <!-- <img src="media/{{job.image}}" height=200px alt=""> -->
+            
+        </div>
+
+
+
+
+
+
+    </body>
+</html>

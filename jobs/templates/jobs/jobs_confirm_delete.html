@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <br>
+    <h2 >Are you sure you want to delete</h2> 
+    <h3>{{object}}</h3> 
+    <!-- <br> -->
+    <!-- <p>Are you sure you want to delete - {{object}} </p> -->
+    <input class='btn btn-danger' type="submit" value="Confirm" />
+	<a class="btn btn-outline-dark" href="{% url 'jobs' %}">Cancel</a>
+</form>
+
+{% endblock %}

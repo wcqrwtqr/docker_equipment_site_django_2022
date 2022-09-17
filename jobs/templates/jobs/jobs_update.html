@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+    <h1>Update the job OD</h1>
+
+    <form method="POST" class="job-form">
+    {% csrf_token %}
+    <table>
+    {{form.as_table}}
+    </table>
+    <button type="submit" class="btn btn-success">Save</button>
+	<a class="btn btn-outline-dark" href="{% url 'jobs' %}">Cancel</a>
+    </form>
+
+{% endblock %}

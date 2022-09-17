@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+<!-- {#% load humanize %} -->
+
+{% block body_block %}
+
+<h3>Jobs Master Info Page</h3>
+<p>Here is the jobs master info page</p>
+
+{% for fa in filter.qs %}
+<div class=conainer align='middle'>
+	<h6>Jobs ID: {{ fa.job}}</h6>
+	<h6>Clinet: {{ fa.job.client}}</h6>
+	<h6>Well: {{ fa.job.well}}</h6>
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col">Serial No</th>
+				<th scope="col">Asset No</th>
+				<th scope="col">Description</th>
+				<th scope="col">BU</th>
+				<th scope="col">H2S</th>
+				<th scope="col">CO2</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for f in fa.asset.all %}
+			<tr>
+				<td>{{ f.serial_num }}</td>
+				<td>{{ f.asset_num }}</td>
+				<td>{{ f.description }}</td>
+				<td>{{ f.BU }}</td>
+				<td>{{ fa.job.h2s }}</td>
+				<td>{{ fa.job.co2 }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table >
+	<hr/>
+</div>
+{% endfor %}
+<a class="btn btn-outline-dark" href="{% url 'jobs'  %}">Back to Jobs</a>
+
+{% endblock %}
+
+

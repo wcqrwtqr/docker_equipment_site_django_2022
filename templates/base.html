@@ -28,11 +28,9 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="{%url 'maintenance'%}">Maintenance</a>
-						<!-- <a class="nav-link" href="#">Maintenance</a> -->
 					</li>
 					<li class="nav-item">
-						{#}<a class="nav-link" href="{%url 'jobs'%}">Jobs</a>#}
-						<a class="nav-link" href="#">Jobs</a>
+						<a class="nav-link" href="{%url 'jobs'%}">Jobs</a>
 					</li>
 					<!-- This shows only for the superuser  -->
 					{% if user.is_superuser   %}
@@ -62,7 +60,6 @@
 			{% else  %}
 			<h2>You are not logged in</h2>
 			<a href="{%url 'login'%}"class="btn btn-outline-dark">LOGIN</a>
-			<!-- <a href="#"class="btn btn-outline-dark">LOGIN</a> -->
 			{% endif %}
 
 			{% block body_block_login %}

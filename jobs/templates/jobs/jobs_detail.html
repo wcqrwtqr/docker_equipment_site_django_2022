@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+<!-- {#% load humanize %} -->
+
+{% block body_block %}
+
+
+
+<div class="card ">
+  <div class="card-header">
+    <h1>Jobs History</h1>
+  </div>
+  <div class="card-body">
+    <h3 class="card-title">  Client:  <strong> {{ jobs_detail.client	}} </strong>  </h3>
+    <div class="row">
+      <div class="col">
+        <p class='card-text'>Job ID: {{ jobs_detail.JOBID }}</p>
+        <p class='card-text'>Field :  {{ jobs_detail.field	}}</p>
+        <p class='card-text'>	Well Name :{{ jobs_detail.well	}}</p>
+        <p class='card-text'>BU  : {{ jobs_detail.BU}}</p>
+        <p class='card-text'>BL  :  {{ jobs_detail.BL}}</p>
+      </div>
+      <div class="col">
+        <p class='card-text'>Is Contract  : {{ jobs_detail.isContract }}</p>
+        <p class='card-text'>Start Date  :   {{ jobs_detail.startDate}}</p>
+        <p class='card-text'>End Date  :   {{ jobs_detail.endDate}}</p>
+        <p class='card-text'>H2S  :   {{ jobs_detail.h2s}}</p>
+        <p class='card-text'>CO2  :   {{ jobs_detail.co2}}</p>
+        <p class='card-text'>Oil Rate  :   {{ jobs_detail.oilRate}}</p>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col">
+        <p class='card-text'><strong>Job Description:  </strong></p>
+        <p class='card-text'> {{ jobs_detail.description}}</p>
+      </div>
+    </div>
+    <br>
+    <a class="btn btn-primary" href="{% url 'jobs' %}">Back to Jobs</a>
+    <!-- <a class="btn btn-primary" href="{#% url 'jobs_master_info_t' pk=jobs_master_info.pk %}">See equipment</a> -->
+  </div>
+  <div class="card-footer text-muted">
+    {% if jobs_detail.endDate is null %}
+    <p class='card-text' style="color: green;" >Job is running </p>
+    {% else  %}
+    <p class='card-text' style="color: red;" >Job ended</p>
+    {% endif  %}
+  </div>
+</div>
+
+
+
+
+
+{% endblock %}
+
+
