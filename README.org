@@ -1,0 +1,29 @@
+* docker_equipment_site_django_2022
+
+Make a web page with postgres database to track equipment and jobs
+
+To build the docker-compose file and create an image called use the below code
+
+#+begin_src bash
+docker-compose up -d --build
+#+end_src
+
+A container called (web) will be created along with postgres database  and the web page will be running
+
+To do migrations and makemigrations use the command below (note that using web container word was specified in the yaml file)
+
+#+begin_src bash
+docker-compose exec web python manage.py migrate
+
+docker-compose exec web python manage.py makemigrations
+#+end_src
+
+To start and stop the container use the below command (use the -d to detach and use the terminal)
+
+#+begin_src bash
+docker-compose up -d
+
+docker-compose down
+#+end_src
+
+- The passwords were stored in the .env file in the local computer to avoid security issues
