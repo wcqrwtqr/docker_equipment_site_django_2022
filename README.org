@@ -1,14 +1,16 @@
 * docker_equipment_site_django_2022
 
-Make a web page with postgres database to track equipment and jobs
+** Running the docker container
 
-To build the docker-compose file and create an image called use the below code
+this is a small web page with postgres database to track equipment and jobs
+
+To build the docker-compose file and create an image use the command below after moving to the directory
 
 #+begin_src bash
 docker-compose up -d --build
 #+end_src
 
-A container called (web) will be created along with postgres database  and the web page will be running
+A container called (web) will be created along with postgres database & pgadmin on the browser and the web page will be running
 
 To do migrations and makemigrations use the command below (note that using web container word was specified in the yaml file)
 
@@ -21,9 +23,25 @@ docker-compose exec web python manage.py makemigrations
 To start and stop the container use the below command (use the -d to detach and use the terminal)
 
 #+begin_src bash
-docker-compose up -d
+docker-compose up -d  # I made an alias of dcup to run this command
 
-docker-compose down
+docker-compose down  # I made an alias of dcd to run this command
 #+end_src
 
+To access the web site visit the localhost:8000 after running the up command
+
 - The passwords were stored in the .env file in the local computer to avoid security issues
+
+** pgadmin
+
+In order to access the pgadmin on site you need to login to the localhost:5050 after running the up command
+
+The mail account and username are mentioned in the docker-compose envirunment
+
+** Docker-compose content
+
+The docker-compose content are having three services whcih are:
+
+- web (the web site application)
+- db (the postgres database )
+- pgadmin (browser pgadmin to manage the database)

@@ -85,6 +85,7 @@ DATABASES = {
         'USER': os.environ.get('SECRET_USER'),
         'PASSWORD': os.environ.get('SECRET_DB'),
         "HOST": "db",  # set in docker-compose.yml
+        # "HOST": "loclhost",  # set in docker-compose.yml
         "PORT": 5432,  # default postgres port
     }
 }

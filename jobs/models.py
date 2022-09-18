@@ -47,8 +47,8 @@ class JobsDB(models.Model):
             self.gen_JOBID = self.get_gen_JOBID
             super().save(*args, **kwargs)
 
-    # def get_absolute_url(self):
-    #     return reverse('jobs_detail',kwargs={'pk':self.pk})
+    def get_absolute_url(self):
+        return reverse('jobs_detail',kwargs={'pk':self.pk})
 
     def __str__(self):
         return '%s %s %s'% (self.JOBID, self.client, self.well)

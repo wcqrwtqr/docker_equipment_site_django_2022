@@ -29,8 +29,8 @@
 			<th scope="col">Serial No</th>
 			<th scope="col">Description</th>
 			<th scope="col">BU</th>
-			<th scope="col">Location</th>
-			<th scope="col">Link</th>
+			<th scope="col">cost</th>
+			<th scope="col">link</th>
 			<th scope="col">Update</th>
 			{% if user.is_superuser   %}
 			<th scope="col">Delete</th>
@@ -48,7 +48,7 @@
 			<td>{{ equip.serial_num }}</td>
 			<td>{{ equip.description }}</td>
 			<td>{{ equip.BU }}</td>
-			<td>{{ equip.temp_location }}</td>
+			<td>{{ equip.acquisition_cost }}</td>
 			{%if equip.file_link != null%}
 			<td><a href="{{ equip.file_link}}" target="_blank">Link</a></td>
 			{%else%}
