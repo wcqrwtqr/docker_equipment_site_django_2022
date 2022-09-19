@@ -1,0 +1,32 @@
+/* body{ */
+/* 	background-color: #b2bec3; */
+/* } */
+
+/* .container{ */
+/* 	background-color: #f6f5f5; */
+/* } */
+
+tfoot{
+	color: black;
+	font-size: 1.3em;
+}
+
+.bd-footer{
+	color: #63707c;
+}
+
+footer{
+	background-color: #f8f9fa;
+	position: relative;
+	width: 100%;
+	left: 0;
+	bottom: 0;
+}
+
+/* .bg-light{ */
+/* 	background-color: #f8f9fa; */
+/* } */
+
+
+
+

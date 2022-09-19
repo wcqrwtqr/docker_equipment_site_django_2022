@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 <!-- #% load bootstrap  %} -->
 {% load static %}
+
 {% block body_block %}
 
 <h1>Equipment Page List</h1>
 <h3>Hello {{user.username}}</h3>
+
 <!-- Adding the filter form here -->
 <div class="row">
 	<div class="col">
@@ -15,7 +17,7 @@
 				</table>
 				<button type="submit" class="btn btn-primary" >Search</button>
 				<a class="btn btn-outline-dark" href="{% url 'equipment_new' %}">Add New Asset</a>
-				{#}<a class="btn btn-outline-dark" href="{% url 'equipment_maintenance_detail' %}">Equipment maintenance</a>#}
+				{#<a class="btn btn-outline-dark" href="{% url 'equipment_maintenance_detail' %}">Equipment maintenance</a>#}
 			</form>
 		</div>
 	</div>
@@ -24,35 +26,34 @@
 <br>
 <table class="table table-striped">
 	<thead >
-		<tr>
+		<!-- This style makes the top header sticking to the top of the page as a sticky table header  -->
+		<tr class="table-dark" style=" position: sticky; top: 0;">
 			<th scope="col">Asset No</th>
 			<th scope="col">Serial No</th>
 			<th scope="col">Description</th>
 			<th scope="col">BU</th>
 			<th scope="col">cost</th>
 			<th scope="col">link</th>
-			<th scope="col">Update</th>
+			<th scope="col" style='width:50px'>Update</th>
 			{% if user.is_superuser   %}
-			<th scope="col">Delete</th>
+			<th scope="col" style='width:50px' >Delete</th>
 			{% endif %}
 		</tr>
 	</thead>
 	<tbody>
 		<p> No of items... <strong>{{filter.qs.count}}</strong></p>
-		{#<!-- <p> No of items... <strong>{{object_list.count}}</strong></p> -->#}
-		{#{% for equip in object_list %}#}
 		{% for equip in filter.qs %}
 		<tr>
-			<th scope="row"> <a href="{% url 'equipment_detail' pk=equip.pk %}">{{ equip.asset_num }}</a></th>
-			{#}<th scope="row"> <a href="#">{{ equip.asset_num }}</a></th>#}
-			<td>{{ equip.serial_num }}</td>
-			<td>{{ equip.description }}</td>
-			<td>{{ equip.BU }}</td>
+			<th scope="row" style='word-break:break-word; width:200px' > <a href="{% url 'equipment_detail' pk=equip.pk %}">{{ equip.asset_num }}</a></th>
+			<td style='word-break:break-word; width:200px' >{{ equip.serial_num }}</td>
+			<!-- Special style for the description as it might contain som long test -->
+			<td style='word-break:break-word; width:450px'>{{ equip.description }}</td>
+			<td style='width:80px' >{{ equip.BU }}</td>
 			<td>{{ equip.acquisition_cost }}</td>
 			{%if equip.file_link != null%}
-			<td><a href="{{ equip.file_link}}" target="_blank">Link</a></td>
+			<td style='word-break:break-word; width:80px'><a href="{{ equip.file_link}}" target="_blank">Link</a></td>
 			{%else%}
-			<td></td>
+			<td style='word-break:break-word; width:50px' > - </td>
 			{% endif %}
 			<td><a href="{%url 'equipment_update' pk=equip.pk%}" class="btn btn-outline-dark"> <span class="fa fa-clone"></a></td>
 			{#}<td><a href="#" class="btn btn-outline-dark"> <span class="fa fa-clone"></a></td>#}
