@@ -19,13 +19,20 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class JobsHomePage(ListView):
     template_name = 'jobs/jobs_page.html'
-    queryset = JobsDB.objects.all()
-    context_object_name = 'jobs_all'
+    model = JobsDB
+    # queryset = JobsDB.objects.all()
+    # context_object_name = 'jobs_all' # TODO check this if something goes wrong
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = Jobsfilter(self.request.GET, queryset=self.queryset)
         return context
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        filter_jobs = Jobsfilter(self.request.GET, queryset=qs)
+        return filter_jobs.qs
 
 # class JobsMasterInfoView(ListView):
 #     template_name = 'jobs/jobs_master_info.html'

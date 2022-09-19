@@ -19,15 +19,15 @@ class MaintenanceDB(models.Model):
         temp_value = [float(cost.main_cost) for cost in self.main_cost.all()]
         return sum(temp_value)
 
-    # def get_absolute_url(self):
-    #     """Get the url of the path
+    def get_absolute_url(self):
+        """Get the url of the path
 
-    #     Get the url of the path when the user click on the url
+        Get the url of the path when the user click on the url
 
-    #     Returns:
-    #         url with id number
-    #     """
-    #     return reverse ('maintenance_detail',kwargs={'pk':self.pk})
+        Returns:
+            url with id number
+        """
+        return reverse ('maintenance_detail',kwargs={'pk':self.pk})
 
     def __str__(self):
         return '%s %s %s' % (self.ms_type,self.main_date_start,self.asset)

@@ -18,12 +18,19 @@ from django.template.loader import get_template
 class EquipmentListView(ListView):
 
     template_name = 'equipmentList/equipment_page.html'
-    queryset = models.EQUIPMENT_DB.objects.all()
+    # queryset = models.EQUIPMENT_DB.objects.all()
+    model = models.EQUIPMENT_DB # new
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = EquipmentFilter(self.request.GET, queryset=self.queryset)
         return context
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        filter_equipment = EquipmentFilter(self.request.GET, queryset=qs)
+        return filter_equipment.qs
 
 # # Getting the equipment vs maintenance views and filtering them
 # class EquipmentMaintenanceListView(ListView):

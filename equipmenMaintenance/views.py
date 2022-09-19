@@ -13,12 +13,19 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 
 class MaintenanceHomePage(ListView):
     template_name = 'equipmenMaintenance/maintenance_page.html'
-    queryset = MaintenanceDB.objects.all()
+    # queryset = MaintenanceDB.objects.all()
+    model = MaintenanceDB
+    paginate_by = 50
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = Maintenancefilter(self.request.GET, queryset=self.queryset)
         return context
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        filter_maintenance = Maintenancefilter(self.request.GET, queryset=qs)
+        return filter_maintenance.qs
 
 class MaintenanceDetailView(DetailView):
     queryset = MaintenanceDB.objects.all()

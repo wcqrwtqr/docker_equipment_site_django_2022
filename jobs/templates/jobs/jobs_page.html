@@ -3,27 +3,34 @@
 {% block body_block %}
 
 
-<h1>Jobs Main Page</h1>
-<h3>Hello {{user.username}}</h3>
-<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button>
-<div class="row collapse" id="collapseMe">
+<h1 class="display-3">Jobs Main Page</h1>
+<br />
+<p class="blockquote-footer">Hello {{user.username}}</p>
+
+<!-- Adding the filter form here -->
+<button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
+	aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
+<!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button> -->
+<div class="row" id="collapseMe">
 	<div class="col">
-		<div class="card card-body" >
-			<form  method="GET" >
+		<div class="card card-body">
+			<form method="GET">
 				<table>
 					{{ filter.form.as_table}}
 				</table>
-				<button type="submit" class="btn btn-primary" >Search</button>
+				<button type="submit" class="btn btn-primary">Search</button>
 				<a class="btn btn-outline-dark" href="{% url 'jobs_new' %}">Add new Job</a>
-<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_equipment_add' %}">Assign equipment to job</a>#} -->
-<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_master_info' %}">List of euqipment in jobs</a>#} -->
+				<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_equipment_add' %}">Assign equipment to job</a>#} -->
+				<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_master_info' %}">List of euqipment in jobs</a>#} -->
 			</form>
 		</div>
 	</div>
 </div>
-
+<div>
+	<p class="fw-lighter" style="float:right"> Total records... {{filter.qs.count}}</p>
+	<p class="fw-lighter" style="float:left"> No of searched items... {{page_obj.object_list.count}}</p>
+</div>
 <br>
-
 <table class="table table-striped">
 	<thead>
 		<tr class="table-dark" style=" position: sticky; top: 0;">
@@ -39,7 +46,7 @@
 			<th scope="col">CO2</th>
 			<th scope="col">GenID</th>
 			<th scope="col">Link</th>
-			{% if user.is_superuser   %}
+			{% if user.is_superuser %}
 			<th scope="col">Update</th>
 			<th scope="col">Delete</th>
 			{% endif %}
@@ -47,8 +54,8 @@
 		</tr>
 	</thead>
 	<tbody>
-		<p> No of items... <strong>{{filter.qs.count}}</strong></p>
-		{% for fa in filter.qs %}
+		<!-- This page_obj.object_list will get us the pagination and filter working togather -->
+		{% for fa in page_obj.object_list %}
 		<tr>
 			<th scope="row"> <a href="{% url 'jobs_detail' pk=fa.pk  %}">{{ fa.JOBID }}</a></th>
 			<td>{{ fa.client }}</td>
@@ -66,21 +73,44 @@
 			{%else%}
 			<td></td>
 			{% endif %}
-			{% if user.is_superuser   %}
-			<td><a href="{% url 'jobs_update' pk=fa.pk  %}" class="btn btn-outline-dark"> <span class="fa fa-clone"></a></td>
-			<td><a href="{% url 'jobs_delete' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-eraser">  </a></td>
+			{% if user.is_superuser %}
+			<td><a href="{% url 'jobs_update' pk=fa.pk  %}" class="btn btn-outline-dark"> <span class="fa fa-clone"></a>
+			</td>
+			<td><a href="{% url 'jobs_delete' pk=fa.pk  %}" class="btn btn-outline-dark"><span class="fa fa-eraser">
+				</a></td>
 			{% endif %}
 			<!-- <td><a href="{#% url 'pdf_job_view' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-pencil"></a></td> -->
 		</tr>
 		{% endfor %}
+		<!-- Pagination pages toggle -->
+
+		<br/>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				{% if page_obj.has_previous %}
+				<li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+				<li class="page-item"><a class="page-link"
+						href="?page={{ page_obj.previous_page_number }} ">previous</a></li>
+				{% endif %}
+				<li class="page-item"><a class="text-rest text-muted page-link" href="#">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+					</a></li>
+				{% if page_obj.has_next %}
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }} ">next</a></li>
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }} ">last</a>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
+
+
 	</tbody>
-</table >
+</table>
 
 
 {% endblock %}
 
-{% block scripts  %}
-{{block.super}}
-<script src="{% static 'js/jobScript.js'  %}"></script>
-{% endblock %}
-
+<!-- {% block scripts %} -->
+<!-- {{block.super}} -->
+<!-- <script type="text/javascript" src="{% static 'js/jobScript.js' %}"></script> -->
+<!-- {% endblock %} -->

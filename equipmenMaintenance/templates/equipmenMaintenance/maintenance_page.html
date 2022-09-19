@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block body_block %}
 
-<h1>Maintenance Page</h1>
-<h3>Hello {{user.username}}</h3>
-<button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button>
-<div class="row collapse" id="collapseMe">
+<h1 class="display-3">Maintenance Page</h1>
+<br/>
+<p class="blockquote-footer" >Hello {{user.username}}</p>
+<!-- <h3>Hello {{user.username}}</h3> -->
+
+<button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
+<!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button> -->
+<div class="row" id="collapseMe">
 	<div class="col">
 		<div class="card card-body" >
 			<!-- I liked this method below as it shows the table in a better way -->
@@ -19,6 +24,11 @@
 		</div>
 	</div>
 </div>
+<div>
+	<p class="fw-lighter" style="float:right"> Total records... {{filter.qs.count}}</p>
+	<p class="fw-lighter" style="float:left"> No of searched items... {{page_obj.object_list.count}}</p>
+</div>
+
 <br>
 <table class="table table-striped">
 	<thead>
@@ -40,10 +50,9 @@
 		</tr>
 	</thead>
 	<tbody>
-		<!-- {#<p>No of items...{{object_list.count}}</p>#} -->
-		<p>No of items...{{filter.qs.count}}</p>
-		{% for fa in filter.qs %}
-		{#{% for fa in object_list %}#}
+
+		{% for fa in page_obj.object_list %}
+
 		<tr>
 			<th scope="row"> <a href="{% url 'maintenance_detail' pk=fa.pk  %}">{{ fa.asset.asset_num }}</a></th>
 			<td>{{ fa.asset.serial_num }}</td>
@@ -64,7 +73,27 @@
 			<!-- <td><a href="{#% url 'pdf_maintenance_view' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-pencil"></a></td> -->
 		</tr>
 		{% endfor %}
-		
+
+
+		<!-- Pagination pages toggle -->
+		<br/>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				{% if page_obj.has_previous %}
+				<li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }} ">previous</a></li>
+				{% endif %}
+				<li class="page-item"><a class=" text-rest text-muted page-link" href="#">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+				</a></li>
+				{% if page_obj.has_next %}
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }} ">next</a></li>
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }} ">last</a></li>
+				{% endif %}
+			</ul>
+		</nav>
+
+
 	</tbody>
 	<tfoot>
 		<tr>
@@ -75,7 +104,8 @@
 			<td scope="col"></td>
 			<td scope="col"></td>
 			<!-- TODO  Find a way to get the total cost of the maintenace of all items-->
-			<td scope="col">{{filter.get_total_cost}}</td>
+			<!-- <td scope="col">{{filter.get_total_cost}}</td> -->
+			<td scope="col"></td>
 			<td scope="col"></td>
 			<td scope="col"></td>
 		</tr>
@@ -84,3 +114,7 @@
 {% endblock %}
 
 
+<!-- {% block scripts  %} -->
+<!-- {{block.super}} -->
+<!-- <script src="{% static 'js/mainScript.js'  %}"></script> -->
+<!-- {% endblock %} -->
