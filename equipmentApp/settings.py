@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'jobs',
     "crispy_forms",
     "crispy_bootstrap5",
+    "admin_searchable_dropdown",
+    "django_admin_listfilter_dropdown",
 ]
 
 MIDDLEWARE = [
@@ -135,6 +137,8 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),]
 
 LOGIN_REDIRECT_URL='home'
 LOGOUT_REDIRECT_URL='home'

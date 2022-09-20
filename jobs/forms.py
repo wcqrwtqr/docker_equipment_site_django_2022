@@ -1,9 +1,15 @@
 from django.contrib.admin.options import widgets
+from django.utils.autoreload import start_django
 # from .models import JobMasterInfo, JobsDB
 from .models import JobsDB
 from django import forms
 
+from .widgets import FengyuanChenDatePickerInput
+from django.forms import DateTimeInput, DateInput
+
 class JobsForm(forms.ModelForm):
+    startDate = forms.DateField(input_formats=['%d-%m-%Y'], widget=FengyuanChenDatePickerInput())
+    endDate = forms.DateField(input_formats=['%d-%m-%Y'], widget=FengyuanChenDatePickerInput())
     class Meta:
         model = JobsDB
         fields = '__all__'
@@ -20,11 +26,29 @@ class JobsForm(forms.ModelForm):
             'BL' : forms.Select(choices=bl),
         }
 
+
+# class DateForm(forms.Form):
+#     startDate = forms.DateField(
+#         # input_formats=['%Y-%M-%d'],
+#         input_formats=['%d-%m-%Y'],
+#         widget=forms.DateInput(attrs={
+#             'class': 'form-control datetimepicker-input',
+#             'data-target': '#datetimepicker1'
+#         })
+#     )
+#     endDate = forms.DateField(
+#         input_formats=['%d-%m-%Y'],
+#         widget=forms.DateInput(attrs={
+#             'class': 'form-control datetimepicker-input',
+#             'data-target': '#datetimepicker1'
+#         })
+#     )
+#
 # class JobsEquipmentForm(forms.ModelForm):
 #     class Meta:
 #         model = JobMasterInfo
 #         fields = '__all__'
-        # fields = ['job', 'asset']
+# fields = ['job', 'asset']
 
         # # job = forms.CharField()
         # asset = forms.ModelMultipleChoiceField(

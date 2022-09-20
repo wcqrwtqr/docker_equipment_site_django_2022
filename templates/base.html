@@ -11,6 +11,15 @@
 		<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+		<!-- Below for datepicker xxxxxxxxx -->
+		<!-- jQuery -->
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<!-- Fengyuan Chen's Datepicker -->
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.css" integrity="sha256-b88RdwbRJEzRx95nCuuva+hO5ExvXXnpX+78h8DjyOE=" crossorigin="anonymous" />
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/datepicker/0.6.5/datepicker.min.js" integrity="sha256-/7FLTdzP6CfC1VBAj/rsp3Rinuuu9leMRGd354hvk0k=" crossorigin="anonymous"></script>
+		<!-- Above for datepicker xxxxxxxxx-->
+
 	</head>
 
 	<body >
@@ -24,7 +33,11 @@
 			{% block body_block %}
 			{% endblock %}
 			{% else  %}
-			<h2>You are not logged in</h2>
+			<h2 class="display-3" >You are not logged in</h2>
+			<br />
+			<div class="container">
+				<p>Please login or ask the admin to create an account for you</p>
+			</div>
 			<a href="{%url 'login'%}"class="btn btn-outline-dark">LOGIN</a>
 			{% endif %}
 
@@ -41,7 +54,6 @@
 
 		<!-- The script block below is for inserting custom JS to change the filter fields names to an appropriate names -->
 		{% block scripts  %}
-		<script src="{% static 'js/script.js'  %}"></script>
 		{% endblock  %}
 
 	</body>

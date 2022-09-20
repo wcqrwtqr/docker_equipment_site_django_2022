@@ -1,8 +1,14 @@
 from django import forms
 from .models import MaintenanceDB
 
+from .widgets import FengyuanChenDatePickerInput
+from django.forms import  DateInput
 
 class MaintenanceForm (forms.ModelForm):
+   main_date_start = forms.DateField(input_formats=['%d-%m-%Y'], widget=FengyuanChenDatePickerInput())
+   main_date_end = forms.DateField(input_formats=['%d-%m-%Y'], widget=FengyuanChenDatePickerInput())
+   expiry_date = forms.DateField(input_formats=['%d-%m-%Y'], widget=FengyuanChenDatePickerInput())
+
    class Meta:
       model = MaintenanceDB
       fields = '__all__'
@@ -20,3 +26,26 @@ class MaintenanceForm (forms.ModelForm):
          'description' : forms.Textarea(attrs={'rows':3 }),
 
       }
+
+# class DateForm(forms.Form):
+#    main_date_start = forms.DateField(
+#       input_formats=['%d-%m-%Y'],
+#       widget=forms.DateInput(attrs={
+#          'class': 'form-control datetimepicker-input',
+#          'data-target': '#datetimepicker1'
+#       })
+#    )
+#    main_date_end = forms.DateField(
+#       input_formats=['%d-%m-%Y'],
+#       widget=forms.DateInput(attrs={
+#          'class': 'form-control datetimepicker-input',
+#          'data-target': '#datetimepicker1'
+#       })
+#    )
+#    expiry_date = forms.DateField(
+#       input_formats=['%d-%m-%Y'],
+#       widget=forms.DateInput(attrs={
+#          'class': 'form-control datetimepicker-input',
+#          'data-target': '#datetimepicker1'
+#       })
+#    )

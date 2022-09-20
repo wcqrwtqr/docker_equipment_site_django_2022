@@ -2,9 +2,11 @@
 {% load crispy_forms_tags %}
 
 {% block body_block %}
-    <h1>Update the Maintenance record</h1>
+<h1 class="display-3">Update the Maintenance record</h1>
+<br/>
+<p class="blockquote-footer" >Hello {{user.username}}</p>
 
-    <form method="POST" class="job-form">
+<form method="POST" class="job-form">
     {% csrf_token %}
     <div class="form-row row">
         <div class="form-group col-md-4 mb-0 col"> {{ form.main_date_start |as_crispy_field }} </div>
@@ -19,7 +21,7 @@
     </div>
 
     <button type="submit" class="btn btn-primary">Save</button>
-	<a class="btn btn-outline-dark" href="{% url 'maintenance' %}">Cancel</a>
-    </form>
+    <a class="btn btn-outline-dark" href="{% url 'maintenance' %}">Cancel</a>
+</form>
 
 {% endblock %}

@@ -2,7 +2,9 @@
 {% load crispy_forms_tags %}
 
 {% block body_block %}
-<h1>Add New Maintenance</h1>
+<h1 class="display-3">Add New Maintenance</h1>
+<br/>
+<p class="blockquote-footer" >Hello {{user.username}}</p>
 
 <form method="POST" class="job-form">
 
@@ -12,6 +14,12 @@
         <div class="form-group col-md-4 mb-0 col"> {{ form.main_date_end |as_crispy_field }} </div>
         <div class="form-group col-md-4 mb-0 col"> {{ form.expiry_date |as_crispy_field }} </div>
     </div>
+
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.ms_type|as_crispy_field }}
+        </div>
+    </div>
+
     {{ form.description|as_crispy_field }}
     <div class="form-row row">
         <div class="form-group col-md-4 mb-0 col"> {{ form.main_cost |as_crispy_field }} </div>

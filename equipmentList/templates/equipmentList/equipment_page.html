@@ -97,7 +97,7 @@
 	<br>
 	{% endblock %}
 
-	<!-- {% block scripts  %} -->
-	<!-- {{block.super}} -->
-	<!-- <script src="{% static 'js/equipmentScript.js'  %}"></script> -->
-	<!-- {% endblock %} -->
+	{% block scripts %}
+	{{block.super}}
+	<script type="text/javascript" src="{% static 'js/equipmentScript.js'  %}"></script>
+	{% endblock %}

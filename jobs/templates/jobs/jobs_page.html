@@ -84,7 +84,7 @@
 		{% endfor %}
 		<!-- Pagination pages toggle -->
 
-		<br/>
+		<br />
 		<nav aria-label="Page navigation example">
 			<ul class="pagination">
 				{% if page_obj.has_previous %}
@@ -110,7 +110,7 @@
 
 {% endblock %}
 
-<!-- {% block scripts %} -->
-<!-- {{block.super}} -->
-<!-- <script type="text/javascript" src="{% static 'js/jobScript.js' %}"></script> -->
-<!-- {% endblock %} -->
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="{% static 'js/jobScript.js' %}"></script>
+{% endblock %}

@@ -6,7 +6,6 @@
 <h1 class="display-3">Maintenance Page</h1>
 <br/>
 <p class="blockquote-footer" >Hello {{user.username}}</p>
-<!-- <h3>Hello {{user.username}}</h3> -->
 
 <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
 <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button> -->
@@ -114,7 +113,7 @@
 {% endblock %}
 
 
-<!-- {% block scripts  %} -->
-<!-- {{block.super}} -->
-<!-- <script src="{% static 'js/mainScript.js'  %}"></script> -->
-<!-- {% endblock %} -->
+{% block scripts  %}
+{{block.super}}
+<script src="{% static 'js/mainScript.js'  %}"></script>
+{% endblock %}

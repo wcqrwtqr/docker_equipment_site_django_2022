@@ -82,3 +82,5 @@ class JobsDeleteView(PermissionRequiredMixin, DeleteView):
 #         self.object = form.save(commit = True)
 #         self.object = save()
 #         return super().form_valid(form)
+class DateForm(forms.Form):
+    startDate = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'])

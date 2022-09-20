@@ -7,3 +7,5 @@ django-filter==22.1
 filters-django==1.0.5
 django-crispy-forms==1.14.0
 crispy-bootstrap5==0.6
+django-admin-searchable-dropdown==1.2
+django-admin-list-filter-dropdown==1.0.3
