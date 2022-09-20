@@ -35,6 +35,7 @@
 	<thead>
 		<tr class="table-dark" style=" position: sticky; top: 0;">
 			<th scope="col">ID</th>
+			<th scope="col">JobID</th>
 			<th scope="col">Client</th>
 			<th scope="col">Well</th>
 			<th scope="col">Contract</th>
@@ -44,7 +45,6 @@
 			<th scope="col">End Date</th>
 			<th scope="col">H2S</th>
 			<th scope="col">CO2</th>
-			<th scope="col">GenID</th>
 			<th scope="col">Link</th>
 			{% if user.is_superuser %}
 			<th scope="col">Update</th>
@@ -58,6 +58,7 @@
 		{% for fa in page_obj.object_list %}
 		<tr>
 			<th scope="row"> <a href="{% url 'jobs_detail' pk=fa.pk  %}">{{ fa.JOBID }}</a></th>
+			<td>{{ fa.gen_JOBID}}</td>
 			<td>{{ fa.client }}</td>
 			<td>{{ fa.well }}</td>
 			<td>{{ fa.isContract }}</td>
@@ -67,7 +68,6 @@
 			<td>{{ fa.endDate}}</td>
 			<td>{{ fa.h2s}}</td>
 			<td>{{ fa.co2}}</td>
-			<td>{{ fa.gen_JOBID}}</td>
 			{%if fa.file_link != null%}
 			<td><a href="{{ fa.file_link}}" target="_blank">Link</a></td>
 			{%else%}

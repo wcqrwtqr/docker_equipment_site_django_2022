@@ -1,16 +1,53 @@
 {% extends 'base.html' %}
-<!-- {#% load crispy_forms_tags %} -->
+{%load crispy_forms_tags %}
 
 {% block body_block %}
-<h1>Create a New Job</h1>
+<h1 class="display-3">Create a New Job</h1>
+<br />
+<p class="blockquote-footer">Hello {{user.username}}</p>
 
 <form method="POST" class="post-form">
     {% csrf_token %}
-        {{form.as_p}}
-    <button type="submit" class="btn btn-success">Save</button>
-    <a class="btn btn-outline-dark" href="{% url 'jobs' %}">Cancel</a>
-<br>
 
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.JOBID | as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.client| as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.tag_client | as_crispy_field }} </div>
+    </div>
+
+    <div class="form-row row">
+        <div class="form-group col-md-1 mb-0 col"> {{ form.BU | as_crispy_field }} </div>
+        <div class="form-group col-md-1 mb-0 col"> {{ form.BL| as_crispy_field }} </div>
+        <div class="form-group col-md-2 mb-0 col"> {{ form.country | as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.field | as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.well | as_crispy_field }} </div>
+    </div>
+    {{ form.description | as_crispy_field }}
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.startDate | as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.endDate | as_crispy_field }} </div>
+    </div>
+
+    <div class="form-row row">
+        <div class="form-group col-md-3 mb-0 col"> {{ form.h2s | as_crispy_field }} </div>
+        <div class="form-group col-md-3 mb-0 col"> {{ form.co2| as_crispy_field }} </div>
+        <div class="form-group col-md-3 mb-0 col"> {{ form.oilRate | as_crispy_field }} </div>
+        <div class="form-group col-md-3 mb-0 col"> {{ form.gasRate| as_crispy_field }} </div>
+    </div>
+
+    <div class="form-row row">
+        <div class="form-group col-md-2 mb-0 col"> {{ form.file_link | as_crispy_field}} </div>
+        <div class="form-group col-md-1 mb-0 col"> {{ form.isContract | as_crispy_field }} </div>
+    </div>
+
+
+
+    <!-- (( form.get_id | as_crispy_field }} -->
+    <!-- (( form.gen_JOBID | as_crispy_field }} -->
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-outline-dark" href="{% url 'jobs' %}">Cancel</a>
 </form>
 
 {% endblock %}

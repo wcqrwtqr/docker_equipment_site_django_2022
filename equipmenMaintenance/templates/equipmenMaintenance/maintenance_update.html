@@ -1,14 +1,24 @@
 {% extends 'base.html' %}
+{% load crispy_forms_tags %}
 
 {% block body_block %}
     <h1>Update the Maintenance record</h1>
 
     <form method="POST" class="job-form">
     {% csrf_token %}
-    <table>
-    {{form.as_table}}
-    </table>
-    <button type="submit" class="btn btn-success">Save</button>
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.main_date_start |as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.main_date_end |as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.expiry_date |as_crispy_field }} </div>
+    </div>
+    {{ form.description|as_crispy_field }}
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.main_cost |as_crispy_field }} </div>
+        <div class="form-group col-md-2 mb-0 col"> {{ form.file_link |as_crispy_field }} </div>
+        <div class="form-group col-md-6 mb-0 col"> {{ form.asset|as_crispy_field }} </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Save</button>
 	<a class="btn btn-outline-dark" href="{% url 'maintenance' %}">Cancel</a>
     </form>
 

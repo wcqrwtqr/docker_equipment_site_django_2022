@@ -20,7 +20,7 @@ class EQUIPMENT_DB(models.Model):
         return reverse('equipment_detail', kwargs={'pk': self.pk})
 
     def __str__(self):
-        return '%s %s'% (self.asset_num, self.serial_num)
+        return '%s %s %s'% (self.asset_num, self.serial_num, self.description)
     class Meta:
         ordering = ['asset_num']
 
