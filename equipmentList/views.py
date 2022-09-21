@@ -1,3 +1,4 @@
+from django.db.models import query
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.decorators import  login_required
 from django.urls import reverse_lazy
@@ -8,6 +9,7 @@ from django.contrib.auth.mixins import PermissionRequiredMixin
 # from django.shortcuts import render, get_object_or_404, redirect
 # from django.db.models import Q
 # from equipmentMaintenance.models import MaintenanceDB
+from equipmenMaintenance.models import MaintenanceDB
 # from .filters import EquipmentFilter, EquipmentMaintenanceFilter
 from .filters import EquipmentFilter
 # from django.http import HttpResponse
@@ -46,6 +48,13 @@ class EquipmentDetailView(DetailView):
     template_name = 'equipmentList/equipment_detail.html'
     queryset = models.EQUIPMENT_DB.objects.all()
     context_object_name = 'equipment_detail'
+    # print(queryset)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mypk = self.kwargs['pk'] # this will get the pk for the asset
+        context['equipMain'] = MaintenanceDB.objects.filter(asset=mypk)
+        return context
 
 
 class EquipmentCreateView(PermissionRequiredMixin, CreateView):

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+
+
+<div class="container-fluid">
+  <div class="row">
+    {% include 'partials/nav_dash.html' %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+    {% include 'partials/nav_dash_2.html' %}
+    <div class="container">
+      <p class="dispaly-3">
+        This is the dashboard section
+      </p>
+    </div>
+    </main>
+  </div>
+</div>
+
+
+
+{% endblock %}

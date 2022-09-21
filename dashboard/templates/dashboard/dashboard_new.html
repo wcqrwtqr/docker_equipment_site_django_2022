@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{%load crispy_forms_tags %}
+
+{% block body_block %}
+<h1 class="display-3">New Fixed Asset</h1>
+<br />
+<p class="blockquote-footer">Hello {{user.username}}</p>
+
+<form method="POST" class="post-form">
+    <div class="form-row row">
+        <div class="form-group col-md-6 mb-0 col"> {{ form.asset_num|as_crispy_field }} </div>
+        <div class="form-group col-md-6 mb-0 col"> {{ form.serial_num|as_crispy_field }} </div>
+    </div>
+    {{ form.description|as_crispy_field }}
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.BU|as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.BL|as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.asset_life|as_crispy_field }} </div>
+    </div>
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.nbv|as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.acquisition_cost|as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.tot_dep_value|as_crispy_field }} </div>
+    </div>
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col"> {{ form.temp_location|as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.file_link|as_crispy_field }} </div>
+        <div class="form-group col-md-4 mb-0 col"> {{ form.acquisition_date|as_crispy_field }} </div>
+    </div>
+    {% csrf_token %}
+
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-outline-dark " href="{% url 'equipment' %}">Cancel</a>
+</form>
+
+{% endblock %}
+
+
+<!-- Old style -->
+<!-- {#{% csrf_token %}#} -->
+<!-- {{form | crispy}} -->
+<!-- <button type="submit" class="btn btn-success">Save</button> -->
+<!-- <a class="btn btn-outline-dark" href="{% url 'equipment' %}">Cancel</a> -->
+<!-- <br> -->
+<!-- <hr> -->
+<!-- Old style -->
+
+<!-- second good one -->
+<!-- <div class='row'> -->
+<!--     <\!-- {#{% for field in form %}#} -\-> -->
+<!--     <div class='col-md-6'> -->
+<!--         {{ field|as_crispy_field }} -->
+<!--     </div> -->
+<!--     <\!-- {#{% endfor %}#} -\-> -->
+<!--     <\!-- {#{% csrf_token %}#} -\-> -->
+<!-- </div> -->

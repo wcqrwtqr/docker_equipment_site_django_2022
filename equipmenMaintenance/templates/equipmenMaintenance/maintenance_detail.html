@@ -7,34 +7,35 @@
 
 <div class="card ">
   <div class="card-header">
-    <h1>Maintenance Details</h1>
+    <h1 class="display-3">Maintenance Details</h1>
   </div>
   <div class="card-body">
-    <h4 class="card-title">  Asset:  <strong> {{ maintenance_detail.asset}} </strong>  </h4>
+    <h4 class="card-title"> Description: <strong> {{ maintenance_detail.asset.description}} </strong> </h4>
     <div class="row">
       <div class="col">
-        <p class='card-text'>Main Type  : {{ maintenance_detail.ms_type }}</p>
+        <p class='card-text'>Main Type : {{ maintenance_detail.ms_type }}</p>
         <p class='card-text'>Start Date : {{ maintenance_detail.main_date_start}}</p>
-        <p class='card-text'>End Date   :  {{ maintenance_detail.main_date_end}}</p>
+        <p class='card-text'>End Date : {{ maintenance_detail.main_date_end}}</p>
+        <p class='card-text'>Asset No : {{ maintenance_detail.asset.asset_num}}</p>
       </div>
       <div class="col">
         <p class='card-text'>Main Cost :{{ maintenance_detail.main_cost}}</p>
-        <p class='card-text'>Expiry    : {{ maintenance_detail.expiry_date}}</p>
-        <p class='card-text'>Description  : {{ maintenance_detail.description}}</p>
+        <p class='card-text'>Expiry : {{ maintenance_detail.expiry_date}}</p>
+        <p class='card-text'>Description : {{ maintenance_detail.description}}</p>
       </div>
     </div>
-    <hr/>
-    <h3>Asset Details</h3>
+    <hr />
+    <h3 class="display-6">Asset Details</h3>
     <br>
     <div class="row">
       <div class="col">
-        <p class='card-text'>BU  : {{ maintenance_detail.asset.BU}}</p>
-        <p class='card-text'>Asset No  : {{ maintenance_detail.asset.asset_num}}</p>
+        <p class='card-text'>BU : {{ maintenance_detail.asset.BU}}</p>
+        <p class='card-text'>Asset No : {{ maintenance_detail.asset.asset_num}}</p>
       </div>
       <div class="col">
-        <p class='card-text'>BL  : {{ maintenance_detail.asset.BL}}</p>
-        <p class='card-text'>Serial numner  : {{ maintenance_detail.asset.serial_num}}</p>
-        <p class='card-text'>Description  : {{ maintenance_detail.asset.description}}</p>
+        <p class='card-text'>BL : {{ maintenance_detail.asset.BL}}</p>
+        <p class='card-text'>Serial numner : {{ maintenance_detail.asset.serial_num}}</p>
+        <p class='card-text'>Description : {{ maintenance_detail.asset.description}}</p>
       </div>
     </div>
     <br>
@@ -46,5 +47,3 @@
 </div>
 
 {% endblock %}
-
-

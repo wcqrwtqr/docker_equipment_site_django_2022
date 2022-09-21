@@ -4,53 +4,77 @@
 
 <div class="card ">
   <div class="card-header">
-    <h3>Equipment Detail view</h3>
-    <br/>
-    <h4>Description : <strong>{{ equipment_detail.description}}</strong></h4>
+    <h3 class="display-5">Equipment Detail view</h3>
+    <br />
+    <h4 class="display-6">Description : {{ equipment_detail.description}}</h4>
   </div>
+</div>
 
+<table class="table table-striped">
+  <thead>
+    <tr class="table-dark" style="position: sticky ; top: 0;">
+      <th scope="col">Asset No</th>
+      <th scope="col">Serial No</th>
+      <th scope="col">BU</th>
+      <th scope="col">BL</th>
+      <th scope="col">Asset Life</th>
+      <th scope="col">Acquisition Cost</th>
+      <th scope="col">NBV</th>
+      <th scope="col">Total Dep</th>
+      <th scope="col">Location</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ equipment_detail.asset_num }}</td>
+      <td>{{ equipment_detail.serial_num }}</td>
+      <td>{{ equipment_detail.BU }}</td>
+      <td>{{ equipment_detail.BL }}</td>
+      <td>{{ equipment_detail.asset_life }}</td>
+      <td>{{ equipment_detail.acquisition_cost }}</td>
+      <td>{{ equipment_detail.nbv }}</td>
+      <td>{{ equipment_detail.tot_dep_value }}</td>
+      <td>{{ equipment_detail.temp_location }}</td>
+    </tr>
+  </tbody>
+</table>
+<hr />
+<p class="display-6">Maintenance</p>
+<table class="table table-striped">
+  <thead>
+    <tr class="table-primary" style="position: sticky ; top: 0;">
+      <th scope="col">Asset No</th>
+      <th scope="col">Serial No</th>
+      <th scope="col">BU</th>
+      <th scope="col">BL</th>
+      <th scope="col">Asset Life</th>
+      <th scope="col">Acquisition Cost</th>
+    </tr>
+  </thead>
+  <tbody>
+      {% for fa in equipMain %}
+    <tr>
+      <td>{{ fa.main_date_start }}</td>
+      <td>{{ fa.main_date_end }}</td>
+      <td>{{ fa.expiry_date}}</td>
+      <td>{{ fa.ms_type }}</td>
+      <td>{{ fa.main_cost }}</td>
+      <td>{{ fa.description }}</td>
+    </tr>
+      {% endfor %}
+  </tbody>
+</table>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Asset No</th>
-        <th scope="col">Serial No</th>
-        <th scope="col">BU</th>
-        <th scope="col">BL</th>
-        <th scope="col">Asset Life</th>
-        <th scope="col">Acquisition Cost</th>
-        <th scope="col">NBV</th>
-        <th scope="col">Total Dep</th>
-        <th scope="col">Location</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>{{ equipment_detail.asset_num }}</td>
-        <td>{{ equipment_detail.serial_num }}</td>
-        <td>{{ equipment_detail.BU }}</td>
-        <td>{{ equipment_detail.BL }}</td>
-        <td>{{ equipment_detail.asset_life }}</td>
-        <td>{{ equipment_detail.acquisition_cost }}</td>
-        <td>{{ equipment_detail.nbv }}</td>
-        <td>{{ equipment_detail.tot_dep_value }}</td>
-        <td>{{ equipment_detail.temp_location }}</td>
-      </tr>
-    </tbody>
-  </table >
+<br />
+<a class="btn btn-primary " href="{% url 'equipment' %}">Back to equipment</a>
 
-  <hr/>
-  <a class="btn btn-primary " href="{% url 'equipment' %}">Back to equipment</a>
-  <div class="card-footer text-muted">
-    {% if far_detail.nbv >= 100.00  %}
-    Equipment still chargeable
-    {% else  %}
-    Equipment fully depreciated
-    {% endif  %}
-  </div>
+<div class="card-footer text-muted">
+  {% if far_detail.nbv >= 100.00 %}
+  Equipment still chargeable
+  {% else %}
+  Equipment fully depreciated
+  {% endif %}
 </div>
 
 
 {% endblock %}
-
-

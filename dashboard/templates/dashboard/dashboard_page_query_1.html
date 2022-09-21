@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+<div class="container-fluid">
+  <div class="row">
+    {% include 'partials/nav_dash.html' %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      {% include 'partials/nav_dash_2.html' %}
+      <div class="row">
+        <p class="fw-lighter col"> Total records... {{dash_query1.count}}</p>
+        <p class="fw-lighter col"> SIU/SLS records... {{q2.count}}</p>
+        <p class="fw-lighter col"> Value = {{q3.av}} $</p>
+      </div>
+      <div class="row">
+        <!-- <p class="fw-lighter col" > Total records... {{dash_query1.count}}</p> -->
+      </div>
+
+      <br>
+      <hr />
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+          <thead>
+            <tr>
+              <th scope="col">Asset No</th>
+              <!-- <th scope="col">SN</th> -->
+              <!-- <th scope="col">BU</th> -->
+              <!-- <th scope="col">BL</th> -->
+            </tr>
+          </thead>
+          <tbody>
+            <!-- {#{% for fa in dash_query1 %}#} -->
+            {% for fa in q2 %}
+            <tr>
+              <td>{{fa}}</td>
+              <!-- <td>{{fa.asset_num}}</td> -->
+              <!-- <td>{{fa.serial_num}}</td> -->
+              <!-- <td>{{fa.BU}}</td> -->
+              <!-- <td>{{fa.BL}}</td> -->
+              {% endfor %}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</div>
+
+
+{% endblock %}
