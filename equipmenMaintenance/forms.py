@@ -18,6 +18,16 @@ class MaintenanceForm (forms.ModelForm):
             ('Junked','Junked'),
             ]
 
+      labels = {
+         'main_date_start' :'Start Date',
+         'ms_type' :'Maintenance Date',
+         'main_date_end' :'End Date',
+         'main_cost' :'Maintenance Cost',
+         'expiry_date' :'Expiry Date',
+         'asset' :'Asset',
+         'description' :'Description',
+         'file_link':'Link',
+      }
       widgets  = {
          'main_date_start' : forms.SelectDateWidget(years=[x for x in range(2018,2025)]),
          'ms_type' : forms.Select(choices=ms),

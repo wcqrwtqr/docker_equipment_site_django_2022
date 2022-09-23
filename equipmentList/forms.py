@@ -11,12 +11,25 @@ class EquipmentForm(forms.ModelForm):
         bl = [('SWT', 'SWT'), ('SLS', 'SLS'), ('WHM', 'WHM'), ('DST', 'DST')]
         model = EQUIPMENT_DB
         fields = '__all__'
+        labels = {
+            'asset_num': 'Asset No',
+            'serial_num': 'Serial No',
+            'description': 'Description',
+            'asset_life': 'Asset Life',
+            'acquisition_cost': 'Purchase Cost',
+            'tot_dep_value': 'Depreciation',
+            'nbv ': 'NBV',
+            'acquisition_date ': 'Purchase Date',
+            'temp_location': 'Location',
+            'file_link': 'Link',
+        }
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
             'acquisition_date': forms.SelectDateWidget(years=[x for x in range(2009, 2025)]),
             'BU': forms.Select(choices=bu),
             'BL': forms.Select(choices=bl),
         }
+
 
 
 # class DateForm(forms.Form):

@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{%load crispy_forms_tags %}
+
+{% block body_block %}
+<h1 class="display-3">Add New Daily Report</h1>
+<br />
+<p class="blockquote-footer">Hello {{user.username}}</p>
+
+<form method="POST" class="job-form">
+
+    {% csrf_token %}
+    <!-- Well info -->
+        <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col">{{form.jobid |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.operationdate |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.supervisorname |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.flowduration |as_crispy_field}}</div>
+    </div>
+
+    <hr />
+    <!-- Details info -->
+    <div class="form-row row">
+        <div class="form-group col-md-6 mb-0 col">{{form.lastdayops |as_crispy_field}}</div>
+        <div class="form-group col-md-6 mb-0 col">{{form.nextdayops |as_crispy_field}}</div>
+    </div>
+
+    <hr />
+    <!-- Rate info -->
+    <div class="form-row row">
+        <div class="form-group col-md-3 mb-0 col">{{form.whp |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.wht |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.staticp |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.dp |as_crispy_field}}</div>
+    </div>
+
+    <hr />
+    <div class="form-row row">
+        <div class="form-group col-md-2 mb-0 col">{{form.chokesize |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.orifice |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.cmf |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.h2s |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.co2 |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.hz |as_crispy_field}}</div>
+    </div>
+
+    <hr />
+    <div class="form-row row">
+        <div class="form-group col-md-3 mb-0 col">{{form.oilrate |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.waterrate |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.gasrate |as_crispy_field}}</div>
+        <div class="form-group col-md-3 mb-0 col">{{form.bsw |as_crispy_field}}</div>
+    </div>
+
+    <!-- Boolen -->
+    <hr />
+    <div class="form-row row">
+        <div class="form-group col-md-4 mb-0 col">{{form.todayproduced |as_crispy_field}}</div>
+        <div class="form-group col-md-4 mb-0 col">{{form.totalproduction |as_crispy_field}}</div>
+    </div>
+
+    <hr />
+    <div class="form-row row">
+        <div class="form-group col-md-1 mb-0 col">{{form.isESP |as_crispy_field}}</div>
+        <div class="form-group col-md-1 mb-0 col">{{form.isDST |as_crispy_field}}</div>
+        <div class="form-group col-md-1 mb-0 col">{{form.isSLS |as_crispy_field }} </div>
+        <div class="form-group col-md-1 mb-0 col">{{form.isSWT |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.isCleanup |as_crispy_field}}</div>
+        <div class="form-group col-md-2 mb-0 col">{{form.isProduction |as_crispy_field}}</div>
+    </div>
+
+
+<hr />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <a class="btn btn-outline-dark" href="{% url 'dailyreport' %}">Cancel</a>
+</form>
+
+{% endblock %}
+
+<!-- {% csrf_token %} -->
+<!-- <table> -->
+<!-- {{form }} -->
+<!-- </table> -->

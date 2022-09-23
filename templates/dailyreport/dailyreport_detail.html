@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+<!-- {#% load humanize %} -->
+{% block body_block %}
+
+<div class="card ">
+  <div class="card-header">
+    <h1 class="display-2">Daily Report Details</h1>
+  </div>
+  <div class="card-body">
+    <h3 class="card-title"> Report Date : {{ dailyreport_detail.operationdate}} </h3>
+    <div class="row">
+      <h4> Well info </h4>
+      <hr />
+      <div class="col">
+        <p class='card-text'>Client : {{ dailyreport_detail.jobid.client}}</p>
+        <p class='card-text'>BU : {{ dailyreport_detail.jobid.BU}}</p>
+        <p class='card-text'>BL : {{ dailyreport_detail.jobid.BL}}</p>
+      </div>
+      <div class="col">
+        <p class='card-text'>Well : {{ dailyreport_detail.jobid.well }}</p>
+        <p class='card-text'>Field : {{ dailyreport_detail.jobid.field }}</p>
+        <p class='card-text'> <a href="{% url 'jobs_detail' pk=dailyreport_detail.jobid.pk %}">Job ID : {{ dailyreport_detail.jobid.JOBID}}</a> </p>
+      </div>
+      <div class="col">
+        <p class='card-text'>Start Date : {{ dailyreport_detail.jobid.startDate}}</p>
+        <p class='card-text'>End Date : {{ dailyreport_detail.jobid.endDate}}</p>
+        <p class='card-text'>Country : {{ dailyreport_detail.jobid.country}}</p>
+      </div>
+    </div>
+    <hr />
+    <div class="row">
+      <h4> Well Paramters </h4>
+      <div class="col">
+        <p class='card-text'>WHP : {{ dailyreport_detail.whp}} psi</p>
+        <p class='card-text'>WHT : {{ dailyreport_detail.wht}} degC</p>
+      </div>
+      <div class="col">
+        <p class='card-text'>Staric P : {{ dailyreport_detail.staticp}} psi</p>
+        <p class='card-text'>Choke size : {{ dailyreport_detail.chokesize}}/64"</p>
+      </div>
+      <div class="col">
+        <p class='card-text'>Diff P : {{ dailyreport_detail.dp}} inH2O</p>
+        <p class='card-text'>CMF : {{ dailyreport_detail.cmf}}</p>
+      </div>
+    </div>
+
+    <hr />
+    <div class="row">
+      <h4> Well Flow Rates </h4>
+
+      <div class="col">
+        <p class='card-text'>Oil Rate : {{ dailyreport_detail.oilrate}} BBL/d</p>
+        <p class='card-text'>Water Rate : {{ dailyreport_detail.waterrate}} BBL/d</p>
+        <p class='card-text'>Gas Rate : {{ dailyreport_detail.gasrate}} MMSCFD</p>
+      </div>
+      <div class="col">
+        <p class='card-text'>BSW : {{ dailyreport_detail.bsw}} %</p>
+      </div>
+      <div class="col">
+        <p class='card-text'>H2S : {{ dailyreport_detail.h2s}}</p>
+        <p class='card-text'>CO2 : {{ dailyreport_detail.co2}}</p>
+      </div>
+    </div>
+    <hr />
+    <h4>Operation Details</h4>
+    <div class="row">
+      <p class='card-text col' align="justify"> <strong>Last 24 hours ops</strong> : <br />
+        {{dailyreport_detail.lastdayops}}</p>
+      <p class='card-text col' align="justify"> <strong>Next 24 hours ops</strong> : <br />
+        {{dailyreport_detail.nextdayops}}</p>
+    </div>
+    <hr />
+    <h4>Activity Details</h4>
+    <div class="row">
+      <p class='card-text col'> <strong>SWT</strong> : <br /> {{ dailyreport_detail.isSWT}}</p>
+      <p class='card-text col'> <strong>ESP</strong> : <br /> {{ dailyreport_detail.isESP}}</p>
+      <p class='card-text col'> <strong>DST</strong> : <br /> {{ dailyreport_detail.isDST}}</p>
+      <p class='card-text col'> <strong>SLS</strong> : <br /> {{ dailyreport_detail.isSLS}}</p>
+    </div>
+
+    <br>
+    <a class="btn btn-primary" href="{% url 'dailyreport' %}">Back to dailyreport</a>
+  </div>
+  <div class="card-footer text-muted">
+    dailyreport is Important
+  </div>
+</div>
+
+{% endblock %}

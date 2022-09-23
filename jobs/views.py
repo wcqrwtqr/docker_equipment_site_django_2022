@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView,ListView,DetailView, View, CreateView, DeleteView, UpdateView
 # from .models import JobsDB, JobMasterInfo
 from .models import JobsDB
+from dailyreport.models import DailyreportDB
 # from django.contrib.auth.decorators import login_required
 from django.urls import  reverse_lazy
 from .forms import *
@@ -60,6 +61,12 @@ class JobsDetailView(DetailView):
     context_object_name = 'jobs_detail'
     template_name = 'jobs/jobs_detail.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        mypk = self.kwargs['pk'] # this will get the pk for the asset
+        context['jobDaily'] = DailyreportDB.objects.filter(jobid=mypk)
+        return context
+
 class JobsUpdateView( UpdateView):
     template_name = 'jobs/jobs_update.html'
     model = models.JobsDB
@@ -82,5 +89,3 @@ class JobsDeleteView(PermissionRequiredMixin, DeleteView):
 #         self.object = form.save(commit = True)
 #         self.object = save()
 #         return super().form_valid(form)
-class DateForm(forms.Form):
-    startDate = forms.DateTimeField(input_formats=['%d/%m/%Y %H:%M'])

@@ -4,100 +4,104 @@
 
 {% block body_block %}
 
-<h1 class="display-3">Equipment Page List</h1>
-<br/>
-<p class="blockquote-footer" >Hello {{user.username}}</p>
+<h1 class="display-3">Equipment Page</h1>
+<br />
+<p class="blockquote-footer" align="left">Hello {{user.username}}</p>
 
 <!-- Adding the filter form here -->
-<button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
-<!-- <div class="row collapse" id="collapseMe"> -->
-	<div class="row " id="collapseMe">
-		<div class="col">
-			<div class="card card-body"  >
-				<form  method="GET" >
-					<table>
-						{{ filter.form.as_table}}
-					</table>
-					<button type="submit" class="btn btn-primary">Search</button>
-					<a class="btn btn-outline-dark" href="{% url 'equipment_new' %}">Add New Asset</a>
-					{#<a class="btn btn-outline-dark" href="{% url 'equipment_maintenance_detail' %}">Equipment maintenance</a>#}
-				</form>
-			</div>
+<button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
+	aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
+<div class="row " id="collapseMe">
+	<div class="col">
+		<div class="card card-body">
+			<form method="GET">
+				<table>
+					{{ filter.form.as_table}}
+				</table>
+				<button type="submit" class="btn btn-primary">Search</button>
+				<a class="btn btn-outline-dark" href="{% url 'equipment_new' %}">Add New Asset</a>
+			</form>
 		</div>
 	</div>
+</div>
 
-	<div>
-		<p class="fw-lighter" style="float:right"> Total records... {{filter.qs.count}}</p>
-		<p class="fw-lighter" style="float:left"> No of searched items... {{page_obj.object_list.count}}</p>
-	</div>
-	<br>
-	<table class="table table-striped">
-		<thead >
-			<!-- This style makes the top header sticking to the top of the page as a sticky table header  -->
-			<tr class="table-dark" style=" position: sticky; top: 0;">
-				<th scope="col">Asset No</th>
-				<th scope="col">Serial No</th>
-				<th scope="col">Description</th>
-				<th scope="col">BU</th>
-				<th scope="col">cost</th>
-				<th scope="col">link</th>
-				<th scope="col" style='width:50px'>Update</th>
-				{% if user.is_superuser   %}
-				<th scope="col" style='width:50px' >Delete</th>
+<div>
+	<p class="fw-lighter" style="float:right"> Total records... {{filter.qs.count}}</p>
+	<p class="fw-lighter" style="float:left"> No of searched items... {{page_obj.object_list.count}}</p>
+</div>
+<br>
+<table class="table table-striped">
+	<thead>
+		<!-- This style makes the top header sticking to the top of the page as a sticky table header  -->
+		<tr class="table-dark" style=" position: sticky; top: 0;">
+			<th scope="col">Asset No</th>
+			<th scope="col">Serial No</th>
+			<th scope="col">Description</th>
+			<th scope="col">BU</th>
+			<th scope="col">cost</th>
+			<th scope="col">link</th>
+			<th scope="col" style='width:50px'>Update</th>
+			{% if user.is_superuser %}
+			<th scope="col" style='width:50px'>Delete</th>
+			{% endif %}
+		</tr>
+	</thead>
+	<tbody>
+
+		<!-- This page_obj.object_list will get us the pagination and filter working togather -->
+		{% for equip in page_obj.object_list %}
+
+		<tr>
+			<th scope="row" style='word-break:break-word; width:200px'> <a
+					href="{% url 'equipment_detail' pk=equip.pk %}">{{ equip.asset_num }}</a></th>
+			<td style='word-break:break-word; width:200px'>{{ equip.serial_num }}</td>
+			<!-- Special style for the description as it might contain som long test -->
+			<td style='word-break:break-word; width:450px'>{{ equip.description }}</td>
+			<td style='width:80px'>{{ equip.BU }}</td>
+			<td>{{ equip.acquisition_cost }}</td>
+			{%if equip.file_link != null%}
+			<td style='word-break:break-word; width:80px'><a href="{{ equip.file_link}}" target="_blank">Link</a></td>
+			{%else%}
+			<td style='word-break:break-word; width:50px'> - </td>
+			{% endif %}
+			<td><a href="{%url 'equipment_update' pk=equip.pk%}" class="btn btn-outline-dark"> <span
+						class="fa fa-clone"></a></td>
+			{% if user.is_superuser %}
+			<td><a href="{%url 'equipment_delete' pk=equip.pk %}" class="btn btn-outline-dark"><span
+						class="fa fa-eraser"></a></td>
+			{% endif %}
+		</tr>
+
+		{% endfor %}
+
+		<!-- Pagination pages toggle -->
+
+		<br />
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				{% if page_obj.has_previous %}
+				<li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+				<li class="page-item"><a class="page-link"
+						href="?page={{ page_obj.previous_page_number }} ">previous</a></li>
 				{% endif %}
-			</tr>
-		</thead>
-		<tbody>
-
-			<!-- This page_obj.object_list will get us the pagination and filter working togather -->
-			{% for equip in page_obj.object_list %}
-
-			<tr>
-				<th scope="row" style='word-break:break-word; width:200px' > <a href="{% url 'equipment_detail' pk=equip.pk %}">{{ equip.asset_num }}</a></th>
-				<td style='word-break:break-word; width:200px' >{{ equip.serial_num }}</td>
-				<!-- Special style for the description as it might contain som long test -->
-				<td style='word-break:break-word; width:450px'>{{ equip.description }}</td>
-				<td style='width:80px' >{{ equip.BU }}</td>
-				<td>{{ equip.acquisition_cost }}</td>
-				{%if equip.file_link != null%}
-				<td style='word-break:break-word; width:80px'><a href="{{ equip.file_link}}" target="_blank">Link</a></td>
-				{%else%}
-				<td style='word-break:break-word; width:50px' > - </td>
-				{% endif %}
-				<td><a href="{%url 'equipment_update' pk=equip.pk%}" class="btn btn-outline-dark"> <span class="fa fa-clone"></a></td>
-				{% if user.is_superuser   %}
-				<td><a href="{%url 'equipment_delete' pk=equip.pk %}"class="btn btn-outline-dark"><span class="fa fa-eraser"></a></td>
-				{% endif %}
-			</tr>
-
-			{% endfor %}
-
-			<!-- Pagination pages toggle -->
-
-			<br/>
-			<nav aria-label="Page navigation example">
-				<ul class="pagination">
-					{% if page_obj.has_previous %}
-					<li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-					<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }} ">previous</a></li>
-					{% endif %}
-					<li class="page-item"><a class="text-rest text-muted page-link" href="#">
-							Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+				<li class="page-item"><a class="text-rest text-muted page-link" href="#">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
 					</a></li>
-					{% if page_obj.has_next %}
-					<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }} ">next</a></li>
-					<li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }} ">last</a></li>
-					{% endif %}
-				</ul>
-			</nav>
+				{% if page_obj.has_next %}
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }} ">next</a></li>
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }} ">last</a>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
 
-		</tbody>
-	</table>
+	</tbody>
+</table>
 
-	<br>
-	{% endblock %}
+<br>
+{% endblock %}
 
-	{% block scripts %}
-	{{block.super}}
-	<script type="text/javascript" src="{% static 'js/equipmentScript.js'  %}"></script>
-	{% endblock %}
+{% block scripts %}
+{{block.super}}
+<script type="text/javascript" src="{% static 'js/equipmentScript.js'  %}"></script>
+{% endblock %}

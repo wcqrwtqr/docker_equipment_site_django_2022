@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+
+<h1 class="display-3">Daily Report Page</h1>
+<br/>
+<p class="blockquote-footer" >Hello {{user.username}}</p>
+
+<button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
+<div class="row" id="collapseMe">
+	<div class="col">
+		<div class="card card-body" >
+			<form  method="GET" >
+				<table>
+					{{ daily_filter.form.as_table}}
+				</table>
+				<button type="submit" class="btn btn-primary" >Search</button>
+				<a class="btn btn-outline-dark" href="{% url 'dailyreport_new' %}">New Report</a>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- <div> -->
+	<!-- <p class="fw-lighter" style="float:right"> Total records... {{daily_list_query.count}}</p> -->
+	<!-- <p class="fw-lighter" style="float:left"> No of searched items... {{page_obj.object_list.count}}</p> -->
+<!-- </div> -->
+
+<br />
+<table class="table table-striped">
+	<thead>
+		<!-- This style makes the top header sticking to the top of the page as a sticky table header  -->
+		<tr class="table-dark" style=" position: sticky; top: 0;">
+			<th scope="col" style='word-break:break-word; width:300px' >Job ID</th>
+			<th scope="col" style='word-break:break-word; width:200px' >Well</th>
+			<th scope="col" style='word-break:break-word; width:200px' >Job Des</th>
+			<th scope="col" style='word-break:break-word; width:200px' >Date</th>
+			<th scope="col" style='word-break:break-word; width:400px' >Last 24 day</th>
+			<th scope="col" style='word-break:break-word; width:400px' >Next 24 day</th>
+			<th scope="col">Update</th>
+			{% if user.is_superuser   %}
+			<th scope="col">Delete</th>
+			{% endif %}
+			<!-- <th scope="col">PDF</th> -->
+		</tr>
+	</thead>
+	<tbody>
+		{% for fa in page_obj.object_list %}
+		<tr>
+			<th scope="row"> <a href="{% url 'dailyreport_detail' pk=fa.pk  %}">{{ fa.jobid.gen_JOBID }}</a></th>
+			<td>{{ fa.jobid.well  }}</td>
+			<td>{{ fa.jobid.description }}</td>
+			<td>{{ fa.operationdate }}</td>
+			<td align="justify">{{ fa.lastdayops  }}</td>
+			<td align="justify">{{ fa.nextdayops }}</td>
+			<td><a href="{% url 'dailyreport_update' pk=fa.pk  %}" class="btn btn-outline-dark"><span class="fa fa-clone"></a></td>
+			{% if user.is_superuser   %}
+			<td><a href="{% url 'dailyreport_delete' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-eraser"></a></td>
+			{% endif %}
+			<!-- <td><a href="{#% url 'pdf_maintenance_view' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-pencil"></a></td> -->
+		</tr>
+		{% endfor %}
+
+</table >
+{% endblock %}
+
+
+<!-- {% block scripts  %} -->
+<!-- {{block.super}} -->
+<!-- <script src="{% static 'js/mainScript.js' %}"></script> -->
+<!-- {% endblock %} -->

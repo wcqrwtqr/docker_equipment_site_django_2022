@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'equipmentList',
     'equipmenMaintenance',
     'jobs',
+    'dailyreport',
     'dashboard',
     "crispy_forms",
     "crispy_bootstrap5",

@@ -1,6 +1,5 @@
 from django.contrib.admin.options import widgets
 from django.utils.autoreload import start_django
-# from .models import JobMasterInfo, JobsDB
 from .models import JobsDB
 from django import forms
 
@@ -18,6 +17,24 @@ class JobsForm(forms.ModelForm):
         bu = [('KIU','KIU'),('SIU','SIU'), ('AGU','AGU'), ('NAU','NAU'), ('ADU','ADU'),]
         bl = [('SWT','SWT'),('SLS','SLS'), ('WHM','WHM'), ('DST','DST'),]
 
+        labels = {
+
+            'JOBID' :'Job ID',
+            'client' :'Client',
+            'tag_client' :'Taq of Client',
+            'field' :'Field',
+            'well' :'Well',
+            'country' :'Country',
+            'description' :'Description',
+            'startDate' :'Start Date',
+            'endDate' :'End Date',
+            'h2s' :'H2S',
+            'co2' :'CO2',
+            'oilRate' :'Oil Rate',
+            'gasRate' :'Gas Rate',
+            'file_link' :'Link',
+
+        }
         widgets  = {
             'description' : forms.Textarea(attrs={'rows':3 }),
             'startDate' : forms.SelectDateWidget(years=[x for x in range(2013,2025)]),

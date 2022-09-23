@@ -2,11 +2,29 @@
 
 {% block body_block %}
 
-<div class="card ">
-  <div class="card-header">
-    <h3 class="display-5">Equipment Detail view</h3>
-    <br />
-    <h4 class="display-6">Description : {{ equipment_detail.description}}</h4>
+<div class="row " >
+  <div class="col">
+    <div class="card card-body">
+      <div class="row">
+        <h3 class="display-5">Equipment Full details</h3>
+        <hr />
+        <div class="col">
+          <p class='card-text'>Asset No : {{ equipment_detail.asset_num}}</p>
+          <p class='card-text'>Serial No : {{ equipment_detail.serial_num}}</p>
+          <p class='card-text'>Description : {{ equipment_detail.description}}</p>
+        </div>
+        <div class="col">
+          <p class='card-text'>Acquistion cost : {{ equipment_detail.acquisition_cost}}</p>
+          <p class='card-text'>NBV : {{ equipment_detail.nbv}}</p>
+          <p class='card-text'>Location : {{ equipment_detail.temp_location}}</p>
+        </div>
+        <div class="col">
+          <p class='card-text'>BU : {{ equipment_detail.BU }}</p>
+          <p class='card-text'>BL : {{ equipment_detail.BL }}</p>
+          <p class='card-text'>Asset life : {{ equipment_detail.asset_life}}</p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -39,35 +57,38 @@
   </tbody>
 </table>
 <hr />
-<p class="display-6">Maintenance</p>
+<div class="card ">
+  <div class="card-header">
+    <h3 class="display-5">Maintenance</h3>
+  </div>
+</div>
+<!-- <p class="display-6">Maintenance</p> -->
 <table class="table table-striped">
   <thead>
-    <tr class="table-primary" style="position: sticky ; top: 0;">
-      <th scope="col">Asset No</th>
-      <th scope="col">Serial No</th>
-      <th scope="col">BU</th>
-      <th scope="col">BL</th>
-      <th scope="col">Asset Life</th>
-      <th scope="col">Acquisition Cost</th>
+    <tr class="table-dark" style="position: sticky ; top: 0;">
+      <th scope="col">Maintenacne Type</th>
+      <th scope="col">Start Date</th>
+      <th scope="col">End Date</th>
+      <th scope="col">Expiry Date</th>
+      <th scope="col">Cost</th>
+      <th scope="col">Description</th>
     </tr>
   </thead>
   <tbody>
-      {% for fa in equipMain %}
+    {% for fa in equipMain %}
     <tr>
+      <td><a href="{% url 'maintenance_detail' pk=fa.pk %}">{{ fa.ms_type }}</a></td>
       <td>{{ fa.main_date_start }}</td>
       <td>{{ fa.main_date_end }}</td>
       <td>{{ fa.expiry_date}}</td>
-      <td>{{ fa.ms_type }}</td>
       <td>{{ fa.main_cost }}</td>
-      <td>{{ fa.description }}</td>
+      <td style='word-break:break-word; width:300px'>{{ fa.description }}</td>
     </tr>
-      {% endfor %}
+    {% endfor %}
   </tbody>
 </table>
 
-<br />
 <a class="btn btn-primary " href="{% url 'equipment' %}">Back to equipment</a>
-
 <div class="card-footer text-muted">
   {% if far_detail.nbv >= 100.00 %}
   Equipment still chargeable
