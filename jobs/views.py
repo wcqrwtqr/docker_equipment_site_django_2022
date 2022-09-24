@@ -9,6 +9,7 @@ from .forms import *
 from .import models
 from .filters import Jobsfilter
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 # Below are the imports for the xhtml2pdf
 # from django.http import HttpResponse
 # from django.template.loader import get_template
@@ -22,7 +23,6 @@ class JobsHomePage(ListView):
     template_name = 'jobs/jobs_page.html'
     model = JobsDB
     # queryset = JobsDB.objects.all()
-    # context_object_name = 'jobs_all' # TODO check this if something goes wrong
     paginate_by = 50
 
     def get_context_data(self, **kwargs):
@@ -44,11 +44,12 @@ class JobsHomePage(ListView):
 #         context['filter'] = Jobsfilter(self.request.GET, queryset=self.queryset)
 #         return context
 
-class JobsCreate(PermissionRequiredMixin, CreateView ):
+class JobsCreate(PermissionRequiredMixin, SuccessMessageMixin,CreateView ):
     permission_required = ("is_superuser")
     template_name = 'jobs/jobs_new.html'
     form_class = JobsForm
     model = models.JobsDB
+    success_message = "%(gen_JOBID)s was updated successfully"
     success_url = reverse_lazy('jobs')
 
     def from_valid(self, form):
@@ -67,16 +68,18 @@ class JobsDetailView(DetailView):
         context['jobDaily'] = DailyreportDB.objects.filter(jobid=mypk)
         return context
 
-class JobsUpdateView( UpdateView):
+class JobsUpdateView( SuccessMessageMixin, UpdateView):
     template_name = 'jobs/jobs_update.html'
     model = models.JobsDB
     success_url = reverse_lazy('jobs')
+    success_message = "%(gen_JOBID)s was updated successfully"
     fields = "__all__"
 
-class JobsDeleteView(PermissionRequiredMixin, DeleteView):
+class JobsDeleteView(PermissionRequiredMixin,SuccessMessageMixin, DeleteView):
     permission_required = ("is_superuser")
     template_name = 'jobs/jobs_confirm_delete.html'
     model = models.JobsDB
+    success_message = "Jobs record was deleted"
     success_url = reverse_lazy('jobs')
 
 # class JobsEquipmentAdd(CreateView ):

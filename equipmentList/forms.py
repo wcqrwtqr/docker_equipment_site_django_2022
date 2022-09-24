@@ -25,7 +25,6 @@ class EquipmentForm(forms.ModelForm):
         }
         widgets = {
             'description': forms.Textarea(attrs={'rows': 3}),
-            'acquisition_date': forms.SelectDateWidget(years=[x for x in range(2009, 2025)]),
             'BU': forms.Select(choices=bu),
             'BL': forms.Select(choices=bl),
         }

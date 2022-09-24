@@ -5,6 +5,8 @@ from django.urls import  reverse_lazy
 from .forms import MaintenanceForm
 from .filters import Maintenancefilter
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
+# from django.contrib import messages
 # Create your views here.
 
 # from django.http import HttpResponse
@@ -32,25 +34,31 @@ class MaintenanceDetailView(DetailView):
     template_name = 'equipmenMaintenance/maintenance_detail.html'
     context_object_name = 'maintenance_detail'
 
-class MaintenanceCreate(CreateView ):
+class MaintenanceCreate(SuccessMessageMixin,CreateView ):
     template_name = 'equipmenMaintenance/maintenance_new.html'
     form_class = MaintenanceForm
     model = MaintenanceDB
     success_url = reverse_lazy('maintenance')
+    success_message = "%(ms_type)s was created successfully"
 
     def from_valid(self, form):
         self.object = form.save(commit = True)
         self.object = save()
+        # success_message = "Maintenance created"
         return super().form_valid(form)
 
-class MaintenanceDeleteView(PermissionRequiredMixin,DeleteView):
+class MaintenanceDeleteView(SuccessMessageMixin,PermissionRequiredMixin,DeleteView):
     permission_required = ("is_superuser", )
     template_name = 'equipmenMaintenance/maintenance_confirm_delete.html'
     model = MaintenanceDB
     success_url = reverse_lazy('maintenance')
+    success_message = "Main record was deleted"
 
-class MaintenanceUpdateView(UpdateView):
-    template_name = 'equipmenMaintenance/maintenance_update.html'
+# class MaintenanceUpdateView(SuccessMessageMixin,UpdateView):
+class MaintenanceUpdateView(SuccessMessageMixin,UpdateView):
     model = MaintenanceDB
-    success_url = reverse_lazy('maintenance')
     fields = "__all__"
+    success_url = reverse_lazy('maintenance')
+    template_name = 'equipmenMaintenance/maintenance_update.html'
+    # success_message = "Maintenance updated"
+    success_message = "%(asset)s was updated successfully"

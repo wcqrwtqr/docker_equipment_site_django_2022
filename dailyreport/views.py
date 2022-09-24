@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.decorators import  login_required
 from django.urls import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+
 
 # from docker_equipment_site_django_2022.dailyreport.filters import DailyreportFilter
 from .filters import DailyreportFilter
@@ -30,10 +32,11 @@ class DailyReportListView(ListView):
 
 
 
-class DailyreportCreate(CreateView ):
+class DailyreportCreate(SuccessMessageMixin, CreateView ):
     template_name = 'dailyreport/dailyreport_new.html'
     form_class = DailyForm
     model = models.DailyreportDB
+    success_message = "%(jobid)s was crated successfully"
     success_url = reverse_lazy('dailyreport')
 
     def from_valid(self, form):
@@ -53,15 +56,17 @@ class DailyreportDetailView(DetailView):
         return context
 
 
-class DailyreportUpdateView(UpdateView):
+class DailyreportUpdateView(SuccessMessageMixin, UpdateView):
     template_name = 'dailyreport/dailyreport_update.html'
     model = models.DailyreportDB
     success_url = reverse_lazy('dailyreport')
-    form_class = DailyForm
-    # fields = "__all__" # when adding the form_class then no need for this line
+    success_message = "%(jobid)s was updated successfully"
+    # form_class = DailyForm
+    fields = "__all__" # when adding the form_class then no need for this line
 
-class DailyreportDeleteView(PermissionRequiredMixin, DeleteView):
+class DailyreportDeleteView(PermissionRequiredMixin,SuccessMessageMixin,  DeleteView):
     permission_required = ("is_superuser", )
     model = models.DailyreportDB
     success_url = reverse_lazy('dailyreport')
-    template_name = 'dailyreportList/dailyreport_confirm_delete.html'
+    success_message = "Daily report record was deleted"
+    template_name = 'dailyreport/dailyreport_confirm_delete.html'

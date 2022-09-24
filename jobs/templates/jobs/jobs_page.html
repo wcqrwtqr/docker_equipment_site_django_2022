@@ -6,6 +6,13 @@
 <h1 class="display-3">Jobs Main Page</h1>
 <br />
 <p class="blockquote-footer">Hello {{user.username}}</p>
+{% for message in messages %}
+{% if message %}
+<div class="alert alert-{{message.tags}}" id="message-card" >
+	{{message}}
+</div>
+{% endif %}
+{% endfor %}
 
 <!-- Adding the filter form here -->
 <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
@@ -113,4 +120,6 @@
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'js/jobScript.js' %}"></script>
+<script src="{% static 'js/messageScript.js' %}"></script>
+
 {% endblock %}

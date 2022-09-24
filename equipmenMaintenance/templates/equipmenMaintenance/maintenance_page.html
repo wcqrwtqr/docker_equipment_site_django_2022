@@ -6,6 +6,14 @@
 <h1 class="display-3">Maintenance Page</h1>
 <br/>
 <p class="blockquote-footer" >Hello {{user.username}}</p>
+<!-- messages flash  -->
+{% for message in messages %}
+{% if message %}
+<div class="alert alert-{{message.tags}}" id="message-card">
+	{{message}}
+</div>
+{% endif %}
+{% endfor %}
 
 <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
 <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button> -->
@@ -116,4 +124,6 @@
 {% block scripts  %}
 {{block.super}}
 <script src="{% static 'js/mainScript.js' %}"></script>
+<script src="{% static 'js/messageScript.js' %}"></script>
+
 {% endblock %}

@@ -8,7 +8,14 @@
 <br />
 <p class="blockquote-footer" align="left">Hello {{user.username}}</p>
 
-<!-- Adding the filter form here -->
+{% for message in messages %}
+{% if message %}
+<div class="alert alert-{{message.tags}}" id="message-card" >
+	{{message}}
+</div>
+{% endif %}
+{% endfor %}
+
 <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
 	aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
 <div class="row " id="collapseMe">
@@ -104,4 +111,13 @@
 {% block scripts %}
 {{block.super}}
 <script type="text/javascript" src="{% static 'js/equipmentScript.js'  %}"></script>
+<script src="{% static 'js/messageScript.js' %}"></script>
+
+<!-- Select2 script for searching dropdown list -->
+<script>
+$(document).ready(function() {
+    $('.js-select2-basic').select2();
+});
+</script>
+
 {% endblock %}

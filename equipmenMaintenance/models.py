@@ -31,3 +31,5 @@ class MaintenanceDB(models.Model):
 
     def __str__(self):
         return '%s %s %s' % (self.ms_type,self.main_date_start,self.asset)
+    class Meta:
+        ordering = ['asset']

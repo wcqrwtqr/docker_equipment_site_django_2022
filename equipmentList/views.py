@@ -1,11 +1,13 @@
 from django.db.models import query
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from django.contrib.auth.decorators import  login_required
+from django.contrib import messages
 from django.urls import reverse_lazy
 from django import forms
 from .forms import EquipmentForm
 from . import models
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.messages.views import SuccessMessageMixin
 # from django.shortcuts import render, get_object_or_404, redirect
 # from django.db.models import Q
 # from equipmentMaintenance.models import MaintenanceDB
@@ -27,6 +29,8 @@ class EquipmentListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['filter'] = EquipmentFilter(self.request.GET, queryset=self.queryset)
+        # Below context is for select2 dropdown list searchablity
+        context['full_list'] = models.EQUIPMENT_DB.objects.all()
         return context
 
     def get_queryset(self):
@@ -57,11 +61,12 @@ class EquipmentDetailView(DetailView):
         return context
 
 
-class EquipmentCreateView(PermissionRequiredMixin, CreateView):
+class EquipmentCreateView(PermissionRequiredMixin,SuccessMessageMixin, CreateView):
     permission_required = ("is_superuser")
     template_name = 'equipmentList/equipment_new.html'
     form_class = EquipmentForm
     model = models.EQUIPMENT_DB
+    success_message = "New Asset was created successfully"
     success_url = reverse_lazy('equipment')
 
     def from_valid(self,form):
@@ -73,16 +78,18 @@ class EquipmentCreateView(PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class EquipmentDeleteView(PermissionRequiredMixin, DeleteView):
+class EquipmentDeleteView(PermissionRequiredMixin,SuccessMessageMixin, DeleteView):
     permission_required = ("is_superuser", )
     model = models.EQUIPMENT_DB
     success_url = reverse_lazy('equipment')
+    success_message = "Asset was deleted successfully"
     template_name = 'equipmentList/equipment_confirm_delete.html'
 
 
-class EquipmentUpdateView(UpdateView):
+class EquipmentUpdateView(SuccessMessageMixin,UpdateView):
     model = models.EQUIPMENT_DB
     fields = '__all__'
     template_name = 'equipmentList/equipment_update.html'
+    success_message = "%(serial_num)s Asset was deleted successfully"
     success_url = reverse_lazy('equipment')
 

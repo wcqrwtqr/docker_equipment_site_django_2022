@@ -89,6 +89,8 @@
 </table>
 
 <a class="btn btn-primary " href="{% url 'equipment' %}">Back to equipment</a>
+<a class="btn btn-secondary " href="{% url 'equipment_update' pk=equipment_detail.pk %}">Update Asset</a>
+<!-- TODO make a button to take the user to a new maintenance record for this equipment based on the pk number -->
 <div class="card-footer text-muted">
   {% if far_detail.nbv >= 100.00 %}
   Equipment still chargeable

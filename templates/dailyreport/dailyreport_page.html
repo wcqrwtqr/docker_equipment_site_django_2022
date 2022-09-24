@@ -5,7 +5,15 @@
 
 <h1 class="display-3">Daily Report Page</h1>
 <br/>
-<p class="blockquote-footer" >Hello {{user.username}}</p>
+<p class="blockquote-footer"  >Hello {{user.username}}</p>
+{% for message in messages %}
+{% if message %}
+<div class="alert alert-{{message.tags}}" id="message-card">
+	{{message}}
+</div>
+{% endif %}
+{% endfor %}
+
 
 <button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
 <div class="row" id="collapseMe">
@@ -65,7 +73,6 @@
 {% endblock %}
 
 
-<!-- {% block scripts  %} -->
-<!-- {{block.super}} -->
-<!-- <script src="{% static 'js/mainScript.js' %}"></script> -->
-<!-- {% endblock %} -->
+{% block scripts  %}
+<script src="{% static 'js/messageScript.js' %}"></script>
+{% endblock %}

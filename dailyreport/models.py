@@ -35,8 +35,8 @@ class DailyreportDB(models.Model):
     isCleanup = models.BooleanField(default=True, null=True, blank=True)
     isProduction = models.BooleanField(default=True, null=True, blank=True)
 
-    # def get_absolute_url(self):
-    #     return reverse('equipment_detail', kwargs={'pk': self.pk})
+    def get_absolute_url(self):
+        return reverse('dailyreport_detail', kwargs={'pk': self.pk})
 
     def __str__(self):
         return '%s %s %s'% (self.jobid, self.operationdate, self.supervisorname)
