@@ -7,16 +7,17 @@
     {% include 'partials/nav_dash.html' %}
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       {% include 'partials/nav_dash_2.html' %}
+      <!-- <div class="row"> -->
+      <!-- <p class="fw-lighter col"> Total records... {{dash_query1.count}}</p> -->
+      <!-- <p class="fw-lighter col"> SIU/SLS records... {{q2.count}}</p> -->
+      <!-- <p class="fw-lighter col"> Value = {{q3.av}} $</p> -->
+      <!-- </div> -->
+      <button type="button" class="btn btn-outline-dark" id='bar'>Bar</button>
+      <button type="button" class="btn btn-outline-dark" id='line'>Line</button>
       <div class="row">
-        <p class="fw-lighter col"> Total records... {{dash_query1.count}}</p>
-        <p class="fw-lighter col"> SIU/SLS records... {{q2.count}}</p>
-        <p class="fw-lighter col"> Value = {{q3.av}} $</p>
-      </div>
-      <div class="row">
+        <canvas id="myChart" width="300" height="150"></canvas>
         <!-- <p class="fw-lighter col" > Total records... {{dash_query1.count}}</p> -->
       </div>
-
-      <br>
       <hr />
       <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -30,10 +31,10 @@
           </thead>
           <tbody>
             <!-- {#{% for fa in dash_query1 %}#} -->
-            {% for fa in q2 %}
+            {% for fa in q1 %}
             <tr>
-              <td>{{fa}}</td>
-              <!-- <td>{{fa.asset_num}}</td> -->
+              <!-- <td>{{fa}}</td> -->
+              <td>{{fa.asset_num}}</td>
               <!-- <td>{{fa.serial_num}}</td> -->
               <!-- <td>{{fa.BU}}</td> -->
               <!-- <td>{{fa.BL}}</td> -->
@@ -46,5 +47,62 @@
   </div>
 </div>
 
+<script>
+  const line = document.getElementById('line')
+  const bar = document.getElementById('bar')
+  line.addEventListener('click', changeline)
+  bar.addEventListener('click', changebar)
+
+
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const myChart = new Chart(ctx, {
+    type: 'bar',
+    // type: 'doughnut',
+    data: {
+      // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      // labels: ['qs_av_KIUSLS', 'qs_av_KIUSWT', 'qs_av_SIUSLS', 'qs_av_SIUSWT', 'qs_av_SIUWHM'],
+      labels: ['qs_av_KIUSLS', 'qs_av_KIUSWT', 'qs_av_SIUSLS', 'qs_av_SIUSWT', 'qs_av_SIUWHM'],
+      datasets: [{
+        label: 'Average of equipment cost',
+        data: [{{ qs_av_KIUSLS.av }}, {{ qs_av_KIUSWT.av }},  {{ qs_av_SIUSLS.av }}, {{ qs_av_SIUSWT.av }}, {{ qs_av_SIUWHM.av }}],
+  backgroundColor: [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)'
+  ],
+    borderColor: [
+      'rgba(255, 99, 132, 1)',
+      'rgba(54, 162, 235, 1)',
+      'rgba(255, 206, 86, 1)',
+      'rgba(75, 192, 192, 1)',
+      'rgba(153, 102, 255, 1)',
+      'rgba(255, 159, 64, 1)'
+    ],
+      borderWidth: 1
+        }]
+    },
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+  function changeline() {
+    myChart.config.type = 'line'
+    myChart.update()
+  }
+  function changebar() {
+    myChart.config.type = 'bar'
+    myChart.update()
+  }
+
+
+</script>
 
 {% endblock %}

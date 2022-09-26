@@ -3,9 +3,9 @@
 
 {% block body_block %}
 
-<h1 class="display-3">Daily Report Page</h1>
-<br/>
-<p class="blockquote-footer"  >Hello {{user.username}}</p>
+<h1 class="display-5">Daily Report Page <span class="material-icons">summarize</span>   </h1>
+<br />
+<p class="blockquote-footer">Hello {{user.username}}</p>
 {% for message in messages %}
 {% if message %}
 <div class="alert alert-{{message.tags}}" id="message-card">
@@ -15,38 +15,40 @@
 {% endfor %}
 
 
-<button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
-<div class="row" id="collapseMe">
+<button class="btn btn-outline-secondary mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
+	aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Show/Hide form</button>
+<div class="row collapse" id="collapseMe">
 	<div class="col">
-		<div class="card card-body" >
-			<form  method="GET" >
+		<div class="card card-body">
+			<form method="GET">
 				<table>
 					{{ daily_filter.form.as_table}}
 				</table>
-				<button type="submit" class="btn btn-primary" >Search</button>
+				<button type="submit" class="btn btn-primary">Search</button>
 				<a class="btn btn-outline-dark" href="{% url 'dailyreport_new' %}">New Report</a>
 			</form>
 		</div>
 	</div>
 </div>
-<!-- <div> -->
-	<!-- <p class="fw-lighter" style="float:right"> Total records... {{daily_list_query.count}}</p> -->
-	<!-- <p class="fw-lighter" style="float:left"> No of searched items... {{page_obj.object_list.count}}</p> -->
-<!-- </div> -->
+<div>
+	<p class="fw-lighter" style="float:right"> Total records... {{daily_filter.qs.count}}</p>
+	<p class="fw-lighter" style="float:left"> No of searched items... {{page_obj.object_list.count}}</p>
+</div>
 
 <br />
 <table class="table table-striped">
+<!-- <table class="table table-dark"> -->
 	<thead>
 		<!-- This style makes the top header sticking to the top of the page as a sticky table header  -->
 		<tr class="table-dark" style=" position: sticky; top: 0;">
-			<th scope="col" style='word-break:break-word; width:300px' >Job ID</th>
-			<th scope="col" style='word-break:break-word; width:200px' >Well</th>
-			<th scope="col" style='word-break:break-word; width:200px' >Job Des</th>
-			<th scope="col" style='word-break:break-word; width:200px' >Date</th>
-			<th scope="col" style='word-break:break-word; width:400px' >Last 24 day</th>
-			<th scope="col" style='word-break:break-word; width:400px' >Next 24 day</th>
+			<th scope="col" style='word-break:break-word; width:300px'>Job ID</th>
+			<th scope="col" style='word-break:break-word; width:200px'>Well</th>
+			<th scope="col" style='word-break:break-word; width:200px'>Job Des</th>
+			<th scope="col" style='word-break:break-word; width:200px'>Date</th>
+			<th scope="col" style='word-break:break-word; width:400px'>Last 24 day</th>
+			<th scope="col" style='word-break:break-word; width:400px'>Next 24 day</th>
 			<th scope="col">Update</th>
-			{% if user.is_superuser   %}
+			{% if user.is_superuser %}
 			<th scope="col">Delete</th>
 			{% endif %}
 			<!-- <th scope="col">PDF</th> -->
@@ -56,23 +58,45 @@
 		{% for fa in page_obj.object_list %}
 		<tr>
 			<th scope="row"> <a href="{% url 'dailyreport_detail' pk=fa.pk  %}">{{ fa.jobid.gen_JOBID }}</a></th>
-			<td>{{ fa.jobid.well  }}</td>
+			<td>{{ fa.jobid.well }}</td>
 			<td>{{ fa.jobid.description }}</td>
 			<td>{{ fa.operationdate }}</td>
-			<td align="justify">{{ fa.lastdayops  }}</td>
+			<td align="justify">{{ fa.lastdayops }}</td>
 			<td align="justify">{{ fa.nextdayops }}</td>
-			<td><a href="{% url 'dailyreport_update' pk=fa.pk  %}" class="btn btn-outline-dark"><span class="fa fa-clone"></a></td>
-			{% if user.is_superuser   %}
-			<td><a href="{% url 'dailyreport_delete' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-eraser"></a></td>
+			<td><a href="{% url 'dailyreport_update' pk=fa.pk  %}" class="btn btn-outline-dark"><span
+						class="fa fa-clone"></a></td>
+			{% if user.is_superuser %}
+			<td><a href="{% url 'dailyreport_delete' pk=fa.pk  %}" class="btn btn-outline-dark"><span
+						class="fa fa-eraser"></a></td>
 			{% endif %}
 			<!-- <td><a href="{#% url 'pdf_maintenance_view' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-pencil"></a></td> -->
 		</tr>
 		{% endfor %}
 
-</table >
+		<br />
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				{% if page_obj.has_previous %}
+				<li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+				<li class="page-item"><a class="page-link"
+						href="?page={{ page_obj.previous_page_number }} ">previous</a></li>
+				{% endif %}
+				<li class="page-item"><a class="text-rest text-muted page-link" href="#">
+						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+					</a></li>
+				{% if page_obj.has_next %}
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }} ">next</a></li>
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }} ">last</a>
+				</li>
+				{% endif %}
+			</ul>
+		</nav>
+
+	</tbody>
+</table>
 {% endblock %}
 
 
-{% block scripts  %}
+{% block scripts %}
 <script src="{% static 'js/messageScript.js' %}"></script>
 {% endblock %}

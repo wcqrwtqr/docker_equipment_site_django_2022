@@ -3,7 +3,7 @@
 {% block body_block %}
 
 
-<h1 class="display-3">Jobs Main Page</h1>
+<h1 class="display-5">Jobs Main Page <span class="material-icons">oil_barrel</span> </h1>
 <br />
 <p class="blockquote-footer">Hello {{user.username}}</p>
 {% for message in messages %}
@@ -15,10 +15,10 @@
 {% endfor %}
 
 <!-- Adding the filter form here -->
-<button class="btn btn-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
-	aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Hide form</button>
+<button class="btn btn-outline-secondary mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
+	aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Show/Hide form</button>
 <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button> -->
-<div class="row" id="collapseMe">
+<div class="row collapse" id="collapseMe">
 	<div class="col">
 		<div class="card card-body">
 			<form method="GET">

@@ -18,7 +18,7 @@ class DailyReportListView(ListView):
     # queryset = models.DailyreportDB.objects.all()
     model = models.DailyreportDB # new
     form_class = DailyForm
-    paginate_by = 50
+    paginate_by = 20
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

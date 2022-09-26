@@ -30,7 +30,7 @@ class EquipmentListView(ListView):
         context = super().get_context_data(**kwargs)
         context['filter'] = EquipmentFilter(self.request.GET, queryset=self.queryset)
         # Below context is for select2 dropdown list searchablity
-        context['full_list'] = models.EQUIPMENT_DB.objects.all()
+        # context['full_list'] = models.EQUIPMENT_DB.objects.all()
         return context
 
     def get_queryset(self):
