@@ -41,6 +41,7 @@
 <table class="table table-striped">
 	<thead>
 		<tr class="table-dark" style=" position: sticky; top: 0;">
+			<th scope="col">#</th>
 			<th scope="col">ID</th>
 			<th scope="col">JobID</th>
 			<th scope="col">Client</th>
@@ -64,6 +65,7 @@
 		<!-- This page_obj.object_list will get us the pagination and filter working togather -->
 		{% for fa in page_obj.object_list %}
 		<tr>
+						<th scope="row" >{{forloop.counter}}</th>
 			<th scope="row"> <a href="{% url 'jobs_detail' pk=fa.pk  %}">{{ fa.JOBID }}</a></th>
 			<td>{{ fa.gen_JOBID}}</td>
 			<td>{{ fa.client }}</td>

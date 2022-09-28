@@ -4,8 +4,8 @@
 {% block body_block %}
 
 <h1 class="display-5">Maintenance Page <span class="material-icons">home_repair_service </span></h1>
-<br/>
-<p class="blockquote-footer" >Hello {{user.username}}</p>
+<br />
+<p class="blockquote-footer">Hello {{user.username}}</p>
 <!-- messages flash  -->
 {% for message in messages %}
 {% if message %}
@@ -15,17 +15,18 @@
 {% endif %}
 {% endfor %}
 
-<button class="btn btn-outline-secondary mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Show/Hide form</button>
+<button class="btn btn-outline-secondary mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe"
+	aria-expanded="false" aria-controls="collapseExample" id="filterbutton">Show/Hide form</button>
 <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMe" aria-expanded="false" aria-controls="collapseExample">Open Filter</button> -->
 <div class="row collapse" id="collapseMe">
 	<div class="col">
-		<div class="card card-body" >
+		<div class="card card-body">
 			<!-- I liked this method below as it shows the table in a better way -->
-			<form  method="GET" >
+			<form method="GET">
 				<table>
 					{{ filter.form.as_table}}
 				</table>
-				<button type="submit" class="btn btn-primary" >Search</button>
+				<button type="submit" class="btn btn-primary">Search</button>
 				<a class="btn btn-outline-dark" href="{% url 'maintenance_new' %}">Add New Maintenance</a>
 			</form>
 		</div>
@@ -41,8 +42,9 @@
 	<thead>
 		<!-- This style makes the top header sticking to the top of the page as a sticky table header  -->
 		<tr class="table-dark" style=" position: sticky; top: 0;">
+			<th scope="col">#</th>
 			<th scope="col" style='word-break:break-word; width:200px'>Asset No</th>
-			<th scope="col"style='word-break:break-word; width:200px' >Serial No</th>
+			<th scope="col" style='word-break:break-word; width:200px'>Serial No</th>
 			<th scope="col">Maintenance Type</th>
 			<th scope="col">Maintenance Start</th>
 			<th scope="col">Maintenance Expiry</th>
@@ -50,7 +52,7 @@
 			<th scope="col">Main Cost</th>
 			<th scope="col">Link</th>
 			<th scope="col">Update</th>
-			{% if user.is_superuser   %}
+			{% if user.is_superuser %}
 			<th scope="col">Delete</th>
 			{% endif %}
 			<!-- <th scope="col">PDF</th> -->
@@ -61,21 +63,24 @@
 		{% for fa in page_obj.object_list %}
 
 		<tr>
+			<th scope="row" >{{forloop.counter}}</th>
 			<th scope="row"> <a href="{% url 'maintenance_detail' pk=fa.pk  %}">{{ fa.asset.asset_num }}</a></th>
 			<td>{{ fa.asset.serial_num }}</td>
-			<td>{{ fa.ms_type  }}</td>
+			<td>{{ fa.ms_type }}</td>
 			<td>{{ fa.main_date_start }}</td>
 			<td>{{ fa.main_date_end }}</td>
 			<td>{{ fa.description }}</td>
-			<td>{{ fa.main_cost  }}</td>
+			<td>{{ fa.main_cost }}</td>
 			{%if fa.file_link != null%}
 			<td><a href="{{ fa.file_link}}" target="_blank">Link</a></td>
 			{%else%}
 			<td></td>
 			{% endif %}
-			<td><a href="{% url 'maintenance_update' pk=fa.pk  %}" class="btn btn-outline-dark"><span class="fa fa-clone"></a></td>
-			{% if user.is_superuser   %}
-			<td><a href="{% url 'maintenance_delete' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-eraser"></a></td>
+			<td><a href="{% url 'maintenance_update' pk=fa.pk  %}" class="btn btn-outline-dark"><span
+						class="fa fa-clone"></a></td>
+			{% if user.is_superuser %}
+			<td><a href="{% url 'maintenance_delete' pk=fa.pk  %}" class="btn btn-outline-dark"><span
+						class="fa fa-eraser"></a></td>
 			{% endif %}
 			<!-- <td><a href="{#% url 'pdf_maintenance_view' pk=fa.pk  %}"class="btn btn-outline-dark"><span class="fa fa-pencil"></a></td> -->
 		</tr>
@@ -83,19 +88,21 @@
 
 
 		<!-- Pagination pages toggle -->
-		<br/>
+		<br />
 		<nav aria-label="Page navigation example">
 			<ul class="pagination">
 				{% if page_obj.has_previous %}
 				<li class="page-item"><a class="page-link" href="?page=1">First</a></li>
-				<li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }} ">previous</a></li>
+				<li class="page-item"><a class="page-link"
+						href="?page={{ page_obj.previous_page_number }} ">previous</a></li>
 				{% endif %}
 				<li class="page-item"><a class=" text-rest text-muted page-link" href="#">
 						Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-				</a></li>
+					</a></li>
 				{% if page_obj.has_next %}
 				<li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }} ">next</a></li>
-				<li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }} ">last</a></li>
+				<li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }} ">last</a>
+				</li>
 				{% endif %}
 			</ul>
 		</nav>
@@ -117,11 +124,11 @@
 			<td scope="col"></td>
 		</tr>
 	</tfoot>
-</table >
+</table>
 {% endblock %}
 
 
-{% block scripts  %}
+{% block scripts %}
 {{block.super}}
 <script src="{% static 'js/mainScript.js' %}"></script>
 <script src="{% static 'js/messageScript.js' %}"></script>

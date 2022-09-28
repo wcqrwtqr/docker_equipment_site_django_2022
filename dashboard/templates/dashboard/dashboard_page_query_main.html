@@ -52,14 +52,11 @@
   const ctx = document.getElementById('myChart').getContext('2d');
   const myChart = new Chart(ctx, {
     type: 'bar',
-    // type: 'doughnut',
     data: {
-      // labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-      // labels: ['qs_av_KIUSLS', 'qs_av_KIUSWT', 'qs_av_SIUSLS', 'qs_av_SIUSWT', 'qs_av_SIUWHM'],
-      labels: ['qs_av_KIUSLS', 'qs_av_KIUSWT', 'qs_av_SIUSLS', 'qs_av_SIUSWT', 'qs_av_SIUWHM'],
+        labels: ['MS-1', 'MS-2', 'MS-3', 'MS-4', 'Repair','Down', 'Junked', 'Waiting on Spares'],
       datasets: [{
         label: 'Average of equipment cost',
-        data: [{{ qs_av_KIUSLS.av }}, {{ qs_av_KIUSWT.av }},  {{ qs_av_SIUSLS.av }}, {{ qs_av_SIUSWT.av }}, {{ qs_av_SIUWHM.av }}],
+          data: [{{MS_1}}, {{MS_2}},  {{MS_3}}, {{MS_4}}, {{Repair}}, {{Down}},{{Junked}},{{Waitng_on_Spares}}],
   backgroundColor: [
     'rgba(255, 99, 132, 0.2)',
     'rgba(54, 162, 235, 0.2)',
