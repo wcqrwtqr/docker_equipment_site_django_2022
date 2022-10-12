@@ -3,6 +3,8 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView, U
 from django.db.models import Avg, Max, Min, FloatField, Count, IntegerField, Sum
 from equipmentList.models import EQUIPMENT_DB as db
 from equipmenMaintenance.models import MaintenanceDB as dbm
+from jobs.models import JobsDB as dbj
+from dailyreport.models import DailyreportDB as dbd
 import pandas as pd
 # from equipmentList import models
 
@@ -28,9 +30,7 @@ class DashboardQueryOne(ListView):
         context['qs_av_SIUSLS'] = db.objects.filter(BL='SLS', BU='SIU').aggregate(av=Avg('acquisition_cost', output_field=IntegerField()))
         context['qs_av_SIUSWT'] = db.objects.filter(BL='SWT', BU='SIU').aggregate(av=Avg('acquisition_cost', output_field=IntegerField()))
         context['qs_av_SIUWHM'] = db.objects.filter(BL='WHM', BU='SIU').aggregate(av=Avg('acquisition_cost', output_field=IntegerField()))
-
         return context
-
 
 class DashboardQueryMain(ListView):
     template_name = 'dashboard/dashboard_page_query_main.html'
@@ -42,14 +42,60 @@ class DashboardQueryMain(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['q1'] = dbm.objects.all().order_by('main_date_start')[:10]
-        # The bad way TODO, need to get a better action for querying over the data
-        context['MS_1'] = dbm.objects.filter(ms_type='MS-1').count()
-        context['MS_2'] = dbm.objects.filter(ms_type='MS-2').count()
-        context['MS_3'] = dbm.objects.filter(ms_type='MS-3').count()
-        context['MS_4'] = dbm.objects.filter(ms_type='MS-4').count()
-        context['Repair'] = dbm.objects.filter(ms_type='Repair').count()
-        context['Down'] = dbm.objects.filter(ms_type='Down').count()
-        context['Junked'] = dbm.objects.filter(ms_type='Junked').count()
-        context['Waiting_on_Spares'] = dbm.objects.filter(ms_type='Waiting on Spares').count()
+        # ================== Count Maintenance ================
+        # Get the list of clients (distinct values only)
+        distinct_maintenace = dbm.objects.all().values_list('ms_type', flat=True).distinct()
+        # Create dictionary to hole the key and value pairs
+        main_dict = {}
+        # Loop through each distinct value and assing the count of the value to it
+        for bar in distinct_maintenace:
+            main_dict[bar] = dbm.objects.filter(ms_type=bar).count()
+        # Pass the dictionary to the context so we pass it to the html
+        context['all_main_count'] = main_dict
+        return context
+
+class DashboardQueryJobs(ListView):
+    template_name = 'dashboard/dashboard_page_query_job.html'
+    context_object_name = 'dash_query_job_daily'
+    def get_queryset(self):
+        return dbj.objects.all().order_by('client')
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['jobsQuery'] = dbj.objects.all().order_by('client')
+        # ================== Count jobs per clinet ================
+        # Get the list of clients (distinct values only)
+        distinct_client = dbj.objects.all().values_list('client', flat=True).distinct()
+        # Create dictionary to hole the key and value pairs
+        clinet_dict = {}
+        # Loop through each distinct value and assing the count of the value to it
+        for bar in distinct_client:
+            clinet_dict[bar] = dbj.objects.filter(client=bar).count()
+        # Pass the dictionary to the context so we pass it to the html
+        context['all_clients'] = clinet_dict
+        # ================== Count jobs per BL ================
+        distinct_maintenace = dbj.objects.all().values_list('BL', flat=True).distinct()
+        bl_dict = {}
+        for bar in distinct_maintenace:
+            bl_dict[bar] = dbj.objects.filter(BL=bar).count()
+        context['all_bl_count'] = bl_dict
+        return context
+
+class DashboardQueryDailyreport(ListView):
+    template_name = 'dashboard/dashboard_page_query_dailyreport.html'
+    context_object_name = 'dash_query_daily'
+
+    def get_queryset(self):
+        return dbd.objects.all().order_by('operationdate')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['dailyreport_wellname'] = dbd.objects.all().values()
+        # TODO try to get the distinct values
+        # context['distinct_values'] = dbd.objects.values_list('jobid', flat=True).distinct()
+        context['distinct_values'] = dbd.objects.all().values_list('jobid', flat=True).distinct()
+        context['report_fields'] = ['whp','h2s','co2','oilrate','dp','waterrate','gasrate',
+                                    'staticp','bsw','wht','chokesize','hz','cmf','ofifice']
+
+
 
         return context

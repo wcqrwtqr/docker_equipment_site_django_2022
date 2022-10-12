@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+<div class="container-fluid">
+  <div class="row">
+    {% include 'partials/nav_dash.html' %}
+    <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+      {% include 'partials/nav_dash_2.html' %}
+      <button type="button" class="btn btn-outline-dark" id='bar'>Bar</button>
+      <button type="button" class="btn btn-outline-dark" id='line'>Line</button>
+
+      <select class="form-select" aria-label="Default select example" id='select_field'>
+        <option selected>whp</option>
+        {% for fa in report_fields %}
+        <option value='{{fa}}'>{{fa}}</option>
+        {% endfor %}
+      </select>
+
+      <!-- {{ distinct_values}} -->
+
+      <div class="row">
+        <canvas id="myChartflow" width="300" height="150"></canvas>
+        <hr/>
+        <canvas id="myChart" width="300" height="150"></canvas>
+        <!-- <p class="fw-lighter col" > Total records... {{dash_query1.count}}</p> -->
+        <p class="fw-lighter col"> Total records... {{ dash_query_daily.count}}</p>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+
+  const line = document.getElementById('line')
+  const bar = document.getElementById('bar')
+  // const select_field = document.getElementById('select_field').innerHTML
+  const select_field = document.getElementById('select_field')
+  // const select_id = 4
+  // console.log(select_field)
+  line.addEventListener('click', changeline)
+  bar.addEventListener('click', changebar)
+  select_field.addEventListener('select', changechart)
+
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const ctxflow= document.getElementById('myChartflow').getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: [
+              {% for fa in dailyreport_wellname %}
+              '{{ fa.operationdate | safe }}',
+              {% endfor %}
+
+          ],
+          datasets: [{
+              label: 'WHP pressure {{wellname}}',
+              data: [
+                  {% for fa in dailyreport_wellname %}
+                  {{ fa.whp }},
+                  {% endfor %}
+              ],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+  const myChartflow = new Chart(ctxflow, {
+      type: 'bar',
+      data: {
+          labels: [
+              {% for fa in dailyreport_wellname %}
+                '{{ fa.operationdate | safe }}',
+              {% endfor %}
+
+          ],
+          datasets: [{
+              label: ' Oil Rate ',
+              data: [
+                  {% for fa in dailyreport_wellname %}
+                    {{ fa.oilrate }},
+                    // {{ fa.select_field }},
+                  {% endfor %}
+              ],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.2)',
+                  'rgba(54, 162, 235, 0.2)',
+                  'rgba(255, 206, 86, 0.2)',
+                  'rgba(75, 192, 192, 0.2)',
+                  'rgba(153, 102, 255, 0.2)',
+                  'rgba(255, 159, 64, 0.2)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {
+                  beginAtZero: true
+              }
+          }
+      }
+  });
+
+  function changeline() {
+      myChart.config.type = 'line'
+      myChart.update()
+  }
+  function changebar() {
+      myChart.config.type = 'bar'
+      myChart.update()
+  }
+  function changechart() {
+      console.log(this.value)
+      myChartflow.update()
+  }
+
+</script>
+
+{% endblock %}

@@ -49,7 +49,7 @@ class JobsCreate(PermissionRequiredMixin, SuccessMessageMixin,CreateView ):
     template_name = 'jobs/jobs_new.html'
     form_class = JobsForm
     model = models.JobsDB
-    success_message = "%(gen_JOBID)s was updated successfully"
+    success_message = "%(JOBID)s was updated successfully"
     success_url = reverse_lazy('jobs')
 
     def from_valid(self, form):
@@ -72,7 +72,7 @@ class JobsUpdateView( SuccessMessageMixin, UpdateView):
     template_name = 'jobs/jobs_update.html'
     model = models.JobsDB
     success_url = reverse_lazy('jobs')
-    success_message = "%(gen_JOBID)s was updated successfully"
+    success_message = "%(JOBID)s was updated successfully"
     fields = "__all__"
 
 class JobsDeleteView(PermissionRequiredMixin,SuccessMessageMixin, DeleteView):
