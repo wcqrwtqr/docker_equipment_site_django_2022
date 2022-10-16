@@ -40,12 +40,12 @@
 <table class="table table-striped">
   <thead>
     <tr class="table-dark" style="position: sticky ; top: 0;">
-      <th scope="col">Date</th>
-      <th scope="col">Last 24hr Ops</th>
-      <th scope="col">Next 24hr Ops</th>
-      <th scope="col">Oil rate</th>
-      <th scope="col">Choke Size</th>
-      <th scope="col">WHP</th>
+      <th scope="col" style='width:200px'>Date</th>
+      <th scope="col" style='word-break:break-word; width:450'>Last 24hr Ops</th>
+      <th scope="col" style='word-break:break-word; width:450'>Next 24hr Ops</th>
+      <th scope="col" style='width:200px'>Oil rate</th>
+      <th scope="col" style='width:100'>Choke Size</th>
+      <th scope="col" style='width:150'>WHP</th>
     </tr>
   </thead>
   <tbody>
@@ -62,8 +62,6 @@
   </tbody>
 </table>
 
-
-
 <a class="btn btn-primary" href="{% url 'jobs' %}">Back to Jobs</a>
 <div class="card-footer text-muted">
   {% if jobs_detail.endDate is null %}
@@ -72,6 +70,330 @@
   <p class='card-text' style="color: red;">Job ended</p>
   {% endif %}
 </div>
+<hr/>
 
+<!-- Adding the graph to the detail page -->
+<button type="button" class="btn btn-outline-dark mb-2" id='bar'>Bar</button>
+<button type="button" class="btn btn-outline-dark mb-2" id='line'>Line</button>
+<div class="row">
+  <h3>Upstream parameters</h3>
+  <canvas id="myChart" width="300" height="150"></canvas>
+  <hr/>
+  <h3>Flow rates</h3>
+  <canvas id="myChart2" width="300" height="150"></canvas>
+  <h3>Other parameters</h3>
+  <canvas id="myChart3" width="300" height="150"></canvas>
+</div>
+
+
+<script>
+  const line = document.getElementById('line')
+  const bar = document.getElementById('bar')
+  line.addEventListener('click', changeline)
+  bar.addEventListener('click', changebar)
+
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const ctx2 = document.getElementById('myChart2').getContext('2d');
+  const ctx3 = document.getElementById('myChart3').getContext('2d');
+  // First chart with Upstream parameters
+  const myChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+          labels: [
+              {% for foo in jobDaily  %}
+              // Add single quote and , after the for loop so the values 
+              '{{foo.operationdate }}',
+              {% endfor %}
+          ],
+          datasets: [
+              // Oil rate
+              {
+                  label: 'WHT',
+                  yAxisID: 'A',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.wht}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                      // 'rgba(54, 162, 235, 0.2)',
+                      // 'rgba(255, 206, 86, 0.2)',
+                      // 'rgba(75, 192, 192, 0.2)',
+                      // 'rgba(153, 102, 255, 0.2)',
+                      // 'rgba(255, 159, 64, 0.2)'
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              // WHP
+              {
+                  label: 'WHP pressure',
+                  yAxisID: 'A',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.whp}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              // dp
+              {
+                  label: 'dp',
+                  yAxisID: 'A',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.dp}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(255, 206, 86, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(255, 206, 86, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              {
+                  label: 'Choke size',
+                  yAxisID: 'B',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.chokesize}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(120, 73, 75, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(120, 73, 75, 0.2)',
+                  ],
+                  borderWidth: 1
+              }
+          ]
+      },
+      options: {
+          scales: {
+              yAxes:[{
+                  id: 'B',
+                  position: 'right'
+              },{
+                  id: 'A',
+                  position: 'left'
+              }]
+
+              // y: {
+              //     beginAtZero: true
+              // }
+          }
+      }
+  });
+  // Second chart with flow rates parameters
+  const myChart2 = new Chart(ctx2, {
+      type: 'line',
+      data: {
+          labels: [
+              {% for foo in jobDaily  %}
+              // Add single quote and , after the for loop so the values 
+              '{{foo.operationdate }}',
+              {% endfor %}
+          ],
+          datasets: [
+              // Oil rate
+              {
+                  label: 'Oil Rate',
+                  yAxisID: 'A',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.oilrate}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              // Water rate
+              {
+                  label: 'Water rate',
+                  yAxisID: 'A',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.waterrate}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              {
+                  label: 'Orifice',
+                  yAxisID: 'B',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.orifice}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(255, 206, 86, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(255, 206, 86, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              {
+                  label: 'Gas Rate',
+                  yAxisID: 'B',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.gasrate}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(120, 73, 75, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(120, 73, 75, 0.2)',
+                  ],
+                  borderWidth: 1
+              }
+          ]
+      },
+      options: {
+          scales: {
+              yAxes:[{
+                  id: 'B',
+                  position: 'right'
+              },{
+                  id: 'A',
+                  position: 'left'
+              }]
+              // y: {
+              //     beginAtZero: true
+              // }
+          }
+      }
+  });
+  const myChart3 = new Chart(ctx3, {
+      type: 'line',
+      data: {
+          labels: [
+              {% for foo in jobDaily  %}
+              // Add single quote and , after the for loop so the values 
+              '{{foo.operationdate }}',
+              {% endfor %}
+          ],
+          datasets: [
+              // Oil rate
+              {
+                  label: 'BSW',
+                  yAxisID: 'B',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.bsw}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(255, 99, 132, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(255, 99, 132, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              // Water rate
+              {
+                  label: 'CO2',
+                  yAxisID: 'A',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.co2}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(54, 162, 235, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(54, 162, 235, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              {
+                  label: 'H2S',
+                  yAxisID: 'A',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.h2s}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(255, 206, 86, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(255, 206, 86, 1)',
+                  ],
+                  borderWidth: 1
+              },
+              {
+                  label: 'Choke size',
+                  yAxisID: 'B',
+                  data: [
+                      {% for foo in jobDaily  %}
+                      {{foo.chokesize}},
+                      {% endfor %}
+                  ],
+                  backgroundColor: [
+                      'rgba(120, 73, 75, 0.2)',
+                  ],
+                  borderColor: [
+                      'rgba(120, 73, 75, 0.2)',
+                  ],
+                  borderWidth: 1
+              }
+          ]
+      },
+      options: {
+          scales: {
+              yAxes:[{
+                  id: 'B',
+                  position: 'right'
+              },{
+                  id: 'A',
+                  position: 'left'
+              }]
+              // y: {
+              //     beginAtZero: true
+              // }
+          }
+      }
+  });
+
+  function changeline() {
+      myChart.config.type = 'line'
+      myChart.update()
+  }
+  function changebar() {
+      myChart.config.type = 'bar'
+      myChart.update()
+  }
+
+
+</script>
 
 {% endblock %}

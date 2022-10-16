@@ -90,12 +90,7 @@ class DashboardQueryDailyreport(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['dailyreport_wellname'] = dbd.objects.all().values()
-        # TODO try to get the distinct values
-        # context['distinct_values'] = dbd.objects.values_list('jobid', flat=True).distinct()
-        context['distinct_values'] = dbd.objects.all().values_list('jobid', flat=True).distinct()
-        context['report_fields'] = ['whp','h2s','co2','oilrate','dp','waterrate','gasrate',
-                                    'staticp','bsw','wht','chokesize','hz','cmf','ofifice']
-
-
+        # TODO still did not find a way to filter by well
+        context['report_fields'] = ['operationdate','id','whp','h2s','co2','oilrate','dp','waterrate','gasrate', 'staticp','bsw','wht','chokesize','hz','cmf','orifice']
 
         return context
