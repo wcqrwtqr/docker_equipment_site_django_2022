@@ -1,8 +1,5 @@
 {% extends 'base.html' %}
-<!-- {#% load humanize %} -->
-
 {% block body_block %}
-
 
 <div class="row ">
   <div class="col">
@@ -11,13 +8,13 @@
         <h3 class="display-5">Jobs Full details</h3>
         <hr />
         <div class="col">
-          <p class='card-text'>Job ID : {{ jobs_detail.gen_JOBID}}</p>
           <p class='card-text'>Client : {{ jobs_detail.client}}</p>
           <p class='card-text'>Field : {{ jobs_detail.field}}</p>
+          <p class='card-text'>Well : {{ jobs_detail.well}}</p>
         </div>
         <div class="col">
-          <p class='card-text'>Well : {{ jobs_detail.well}}</p>
           <p class='card-text'>BU : {{ jobs_detail.BU}}</p>
+          <p class='card-text'>BL : {{ jobs_detail.BL}}</p>
           <p class='card-text'>Description : {{ jobs_detail.description}}</p>
         </div>
         <div class="col">
@@ -29,39 +26,96 @@
     </div>
   </div>
 </div>
+<br/>
 
-<br />
-<div class="card ">
-  <div class="card-header">
-    <h3 class="display-5">Daily reports</h3>
+<div class="accordion" id="accordionExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+        Daily Report Details
+      </button>
+    </h2>
+    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <p class="fw-lighter">No of records.. {{jobDaily.count}}</p>
+        <table class="table table-striped">
+          <thead>
+            <tr class="table-dark" style="position: sticky ; top: 0;">
+              <th scope="col" style='width:200px'>Date</th>
+              <th scope="col" style='word-break:break-word; width:450'>Last 24hr Ops</th>
+              <th scope="col" style='word-break:break-word; width:450'>Next 24hr Ops</th>
+              <th scope="col" style='width:200px'>Oil rate</th>
+              <th scope="col" style='width:100'>Choke Size</th>
+              <th scope="col" style='width:150'>WHP</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for fa in jobDaily %}
+            <tr>
+              <td><a href="{% url 'dailyreport_detail' pk=fa.pk %}">{{ fa.operationdate }}</a></td>
+              <td style='width:400px' align="justify">{{ fa.lastdayops }}</td>
+              <td style='width:400px' align="justify" >{{ fa.nextdayops }}</td>
+              <td>{{ fa.oilrate}} BPD</td>
+              <td>{{ fa.chokesize }}/64"</td>
+              <td >{{ fa.whp }} psi</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Creating the accordion which will hold the data and graphs -->
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+        Upstream Parameters
+      </button>
+    </h2>
+
+    <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+      <div class="accordion-body">
+        <button type="button" class="btn btn-outline-dark mb-2" id='bar'>Bar</button>
+        <button type="button" class="btn btn-outline-dark mb-2" id='line'>Line</button>
+        <div class="row">
+          <h3>Upstream parameters</h3>
+          <canvas id="myChart" width="300" height="150"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingThree">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+          Flow Rates
+        </button>
+      </h2>
+      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <h3>Flow rates</h3>
+          <canvas id="myChart2" width="300" height="150"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="headingFour">
+        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+          Other Paramters
+        </button>
+      </h2>
+      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <h3>Other parameters</h3>
+          <canvas id="myChart3" width="300" height="150"></canvas>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
-<table class="table table-striped">
-  <thead>
-    <tr class="table-dark" style="position: sticky ; top: 0;">
-      <th scope="col" style='width:200px'>Date</th>
-      <th scope="col" style='word-break:break-word; width:450'>Last 24hr Ops</th>
-      <th scope="col" style='word-break:break-word; width:450'>Next 24hr Ops</th>
-      <th scope="col" style='width:200px'>Oil rate</th>
-      <th scope="col" style='width:100'>Choke Size</th>
-      <th scope="col" style='width:150'>WHP</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for fa in jobDaily %}
-    <tr>
-      <td><a href="{% url 'dailyreport_detail' pk=fa.pk %}">{{ fa.operationdate }}</a></td>
-      <td style='width:400px' align="justify">{{ fa.lastdayops }}</td>
-      <td style='width:400px' align="justify" >{{ fa.nextdayops }}</td>
-      <td>{{ fa.oilrate}} BPD</td>
-      <td>{{ fa.chokesize }}/64"</td>
-      <td >{{ fa.whp }} psi</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-
+<br/>
+<!-- Making the button for going back -->
 <a class="btn btn-primary" href="{% url 'jobs' %}">Back to Jobs</a>
 <div class="card-footer text-muted">
   {% if jobs_detail.endDate is null %}
@@ -70,22 +124,8 @@
   <p class='card-text' style="color: red;">Job ended</p>
   {% endif %}
 </div>
-<hr/>
 
-<!-- Adding the graph to the detail page -->
-<button type="button" class="btn btn-outline-dark mb-2" id='bar'>Bar</button>
-<button type="button" class="btn btn-outline-dark mb-2" id='line'>Line</button>
-<div class="row">
-  <h3>Upstream parameters</h3>
-  <canvas id="myChart" width="300" height="150"></canvas>
-  <hr/>
-  <h3>Flow rates</h3>
-  <canvas id="myChart2" width="300" height="150"></canvas>
-  <h3>Other parameters</h3>
-  <canvas id="myChart3" width="300" height="150"></canvas>
-</div>
-
-
+<!-- Scirpting for the chart js  -->
 <script>
   const line = document.getElementById('line')
   const bar = document.getElementById('bar')
@@ -290,6 +330,7 @@
           }
       }
   });
+  // third chart with other parameters
   const myChart3 = new Chart(ctx3, {
       type: 'line',
       data: {
@@ -392,8 +433,6 @@
       myChart.config.type = 'bar'
       myChart.update()
   }
-
-
 </script>
 
 {% endblock %}
