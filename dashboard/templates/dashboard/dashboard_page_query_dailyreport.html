@@ -9,13 +9,6 @@
       {% include 'partials/nav_dash_2.html' %}
       <button type="button" class="btn btn-outline-dark" id='bar'>Bar</button>
       <button type="button" class="btn btn-outline-dark" id='line'>Line</button>
-      <!-- TODO still did not find a way to fix the select and update the char  -->
-      <select class="form-select" aria-label="Default select example" id='select_field'>
-        <option selected>whp</option>
-        {% for fa in report_fields %}
-        <option value='{{fa}}'>{{fa}}</option>
-        {% endfor %}
-      </select>
       <div class="row">
         <canvas id="myChart" width="300" height="150"></canvas>
         <hr/>
