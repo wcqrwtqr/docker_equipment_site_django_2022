@@ -35,38 +35,7 @@ class JobsForm(forms.ModelForm):
         }
         widgets  = {
             'description' : forms.Textarea(attrs={'rows':3 }),
-            # 'startDate' : forms.SelectDateWidget(years=[x for x in range(2013,2025)]),
-            # 'endDate' : forms.SelectDateWidget(years=[x for x in range(2013,2025)]),
             'BU' : forms.Select(choices=bu),
             'BL' : forms.Select(choices=bl),
         }
 
-
-# class DateForm(forms.Form):
-#     startDate = forms.DateField(
-#         # input_formats=['%Y-%M-%d'],
-#         input_formats=['%d-%m-%Y'],
-#         widget=forms.DateInput(attrs={
-#             'class': 'form-control datetimepicker-input',
-#             'data-target': '#datetimepicker1'
-#         })
-#     )
-#     endDate = forms.DateField(
-#         input_formats=['%d-%m-%Y'],
-#         widget=forms.DateInput(attrs={
-#             'class': 'form-control datetimepicker-input',
-#             'data-target': '#datetimepicker1'
-#         })
-#     )
-#
-# class JobsEquipmentForm(forms.ModelForm):
-#     class Meta:
-#         model = JobMasterInfo
-#         fields = '__all__'
-# fields = ['job', 'asset']
-
-        # # job = forms.CharField()
-        # asset = forms.ModelMultipleChoiceField(
-        #     queryset=JobMasterInfo.objects.all(),
-        #     widget=forms.CheckboxSelectMultiple
-        # )

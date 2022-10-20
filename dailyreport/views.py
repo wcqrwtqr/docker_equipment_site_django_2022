@@ -30,8 +30,6 @@ class DailyReportListView(ListView):
         filter_dailyreport = DailyreportFilter(self.request.GET, queryset=qs)
         return filter_dailyreport.qs
 
-
-
 class DailyreportCreate(SuccessMessageMixin, CreateView ):
     template_name = 'dailyreport/dailyreport_new.html'
     form_class = DailyForm
@@ -44,8 +42,6 @@ class DailyreportCreate(SuccessMessageMixin, CreateView ):
         self.object = save()
         return super().form_valid(form)
 
-
-
 class DailyreportDetailView(DetailView):
     template_name = 'dailyreport/dailyreport_detail.html'
     queryset = models.DailyreportDB.objects.all()
@@ -54,7 +50,6 @@ class DailyreportDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         return context
-
 
 class DailyreportUpdateView(SuccessMessageMixin, UpdateView):
     template_name = 'dailyreport/dailyreport_update.html'

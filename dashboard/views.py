@@ -13,7 +13,7 @@ class DashHomePage(TemplateView):
     template_name = 'dashboard/dashboard_page.html'
 
 class DashboardQueryOne(ListView):
-    template_name = 'dashboard/dashboard_page_query_1.html'
+    template_name = 'dashboard/dashboard_page_query_equipment.html'
     context_object_name = 'dash_query1'
 
     def get_queryset(self):

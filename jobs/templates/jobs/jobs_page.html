@@ -26,9 +26,10 @@
 					{{ filter.form.as_table}}
 				</table>
 				<button type="submit" class="btn btn-primary">Search</button>
+				{% if user.is_superuser %}
 				<a class="btn btn-outline-dark" href="{% url 'jobs_new' %}">Add new Job</a>
-				<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_equipment_add' %}">Assign equipment to job</a>#} -->
-				<!-- {#				<a class="btn btn-outline-dark" href="{% url 'jobs_master_info' %}">List of euqipment in jobs</a>#} -->
+				{% endif %}
+
 			</form>
 		</div>
 	</div>

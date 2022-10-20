@@ -1,0 +1,204 @@
+<script>
+
+  const allColors = [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)']
+  const allColorsticks = [
+    'rgba(255, 99, 132, 1.0)',
+    'rgba(54, 162, 235, 1.0)',
+    'rgba(255, 206, 86, 1.0)',
+    'rgba(75, 192, 192, 1.0)',
+    'rgba(153, 102, 255, 1.0)',
+    'rgba(255, 159, 64, 1.0)']
+  const allColors2nd = [
+    'rgba(255, 99, 132, 0.6)',
+    'rgba(54, 162, 235, 0.6)',
+    'rgba(255, 206, 86, 0.6)',
+    'rgba(75, 192, 192, 0.6)',
+    'rgba(153, 102, 255, 0.6)',
+    'rgba(255, 159, 64, 0.6)']
+  const line = document.getElementById('line')
+  const bar = document.getElementById('bar')
+  line.addEventListener('click', changeline)
+  bar.addEventListener('click', changebar)
+  const title = document.getElementById('title-page')
+  title.innerHTML = 'Equipment dashboard'
+
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const ctx2 = document.getElementById('myChart2').getContext('2d');
+  const ctx3 = document.getElementById('myChart3').getContext('2d');
+  const ctx4 = document.getElementById('myChart4').getContext('2d');
+  const ctx5 = document.getElementById('myChart5').getContext('2d');
+  const ctx_pie_count = document.getElementById('myChart_pie_count').getContext('2d');
+  const ctx_pie_acq_cost = document.getElementById('myChart_pie_acq_cost').getContext('2d');
+  const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: [{% for key, _ in all_equipment_blbu_avg.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Average of equipment cost',
+              data: [{% for _, value in all_equipment_blbu_avg.items %} {{ value.av }}, {% endfor %}],
+              backgroundColor: allColors,
+              borderColor: allColorsticks,
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {y: {beginAtZero: true}}
+      } 
+  });
+  const myChart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+          labels: [{% for key, _ in all_equipment_nvb_blbu_avg.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Average of equipment NBV',
+              data: [{% for _, value in all_equipment_nvb_blbu_avg.items %} {{ value.av }}, {% endfor %}],
+              backgroundColor: allColors,
+              borderColor: allColorsticks,
+              borderWidth: 1 
+          }]
+      },
+      options: {scales: {y: {beginAtZero: true}}} 
+  });
+  const myChart3 = new Chart(ctx3, {
+      type: 'bar',
+      data: {
+          labels: [{% for key, _ in all_equipment_acq_blbu_sum.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Sum of equipment cost of acquisition',
+              yAxisID: 'A',
+              data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
+              backgroundColor: allColors,
+              borderColor: allColorsticks,
+              borderWidth: 1
+          }, {
+              label: 'Count of equipment',
+              yAxisID: 'B',
+              data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.count }}, {% endfor %}],
+              backgroundColor: allColors2nd, 
+              borderColor: allColorsticks,
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{id: 'B', position: 'right'},
+                      {id: 'A', position: 'left'}]
+          }
+      }
+  });
+  const myChart4 = new Chart(ctx4, {
+      type: 'bar',
+      data: {
+          labels: [{% for key, _ in all_equipment_nbv_blbu_sum.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Sum of equipment NBV',
+              yAxisID: 'A',
+              data: [{% for _, value in all_equipment_nbv_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
+              backgroundColor:allColors, 
+              borderColor: allColorsticks, 
+              borderWidth: 1
+          }, {
+              label: 'Count of equipment',
+              yAxisID: 'B',
+              data: [{% for _, value in all_equipment_nbv_blbu_sum.items %} {{ value.count }}, {% endfor %}],
+              backgroundColor: allColors2nd,
+              borderColor:allColorsticks, 
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              yAxes: [{id: 'B', position: 'right'},
+                      {id: 'A', position: 'left'}]
+          }
+      }
+  });
+  const myChart5 = new Chart(ctx5, {
+      type: 'bar',
+      data: {
+          labels: [{% for key, _ in all_equipment_nbv_blbu_sum.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Sum of equipment NBV',
+              data: [{% for _, value in all_equipment_nbv_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
+              backgroundColor: allColors,
+              borderColor: allColorsticks,
+              borderWidth: 1
+          }, {
+              label: 'Sum of equipment Acquistion cost',
+              data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
+              backgroundColor: allColors2nd,
+              borderColor: allColorsticks,
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {y: {beginAtZero: true}}
+      }
+  });
+  const myChart_pie_count = new Chart(ctx_pie_count, {
+      type: 'pie',
+      data: {
+          labels: [{% for key, _ in all_equipment_blbu_avg.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Count of equipment',
+              data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.count }}, {% endfor %}],
+              backgroundColor: allColors,
+              borderColor: allColorsticks,
+              borderWidth: 1,
+              hoverOffset: 10
+          }]
+      },
+      options: {
+          scales: {y: {beginAtZero: true}}
+      } 
+  });
+  const myChart_pie_acq_cost = new Chart(ctx_pie_acq_cost, {
+      type: 'pie',
+      data: {
+          labels: [{% for key, _ in all_equipment_blbu_avg.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Count of equipment',
+              data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
+              backgroundColor: allColors,
+              borderColor: allColorsticks,
+              borderWidth: 1,
+              hoverOffset: 10
+          }]
+      },
+      options: {
+          scales: {y: {beginAtZero: true}}
+      } 
+  });
+
+  function changeline() {
+    myChart.config.type = 'line'
+    myChart.update()
+    myChart2.config.type = 'line'
+    myChart2.update()
+    myChart3.config.type = 'line'
+    myChart3.update()
+    myChart4.config.type = 'line'
+    myChart4.update()
+    myChart5.config.type = 'line'
+    myChart5.update()
+  }
+  function changebar() {
+    myChart.config.type = 'bar'
+    myChart.update()
+    myChart2.config.type = 'bar'
+    myChart2.update()
+    myChart3.config.type = 'bar'
+    myChart3.update()
+    myChart4.config.type = 'bar'
+    myChart4.update()
+    myChart5.config.type = 'bar'
+    myChart5.update()
+  }
+
+</script>

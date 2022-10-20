@@ -1,6 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import TemplateView,ListView,DetailView, View, CreateView, DeleteView, UpdateView
-# from .models import JobsDB, JobMasterInfo
 from .models import JobsDB
 from dailyreport.models import DailyreportDB
 # from django.contrib.auth.decorators import login_required
@@ -34,15 +33,6 @@ class JobsHomePage(ListView):
         qs = super().get_queryset()
         filter_jobs = Jobsfilter(self.request.GET, queryset=qs)
         return filter_jobs.qs
-
-# class JobsMasterInfoView(ListView):
-#     template_name = 'jobs/jobs_master_info.html'
-#     queryset = JobMasterInfo.objects.all()
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['filter'] = Jobsfilter(self.request.GET, queryset=self.queryset)
-#         return context
 
 class JobsCreate(PermissionRequiredMixin, SuccessMessageMixin,CreateView ):
     permission_required = ("is_superuser")
@@ -81,14 +71,3 @@ class JobsDeleteView(PermissionRequiredMixin,SuccessMessageMixin, DeleteView):
     model = models.JobsDB
     success_message = "Jobs record was deleted"
     success_url = reverse_lazy('jobs')
-
-# class JobsEquipmentAdd(CreateView ):
-#     template_name = 'jobs/jobs_equipment_add.html'
-#     form_class = JobsEquipmentForm
-#     model = models.JobMasterInfo
-#     success_url = reverse_lazy('jobs')
-
-#     def from_valid(self, form):
-#         self.object = form.save(commit = True)
-#         self.object = save()
-#         return super().form_valid(form)

@@ -38,16 +38,6 @@ class EquipmentListView(ListView):
         filter_equipment = EquipmentFilter(self.request.GET, queryset=qs)
         return filter_equipment.qs
 
-# # Getting the equipment vs maintenance views and filtering them
-# class EquipmentMaintenanceListView(ListView):
-#     template_name = 'equipmentList/equipment_maintenance_detail.html'
-#     queryset = MaintenanceDB.objects.all()
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         context['filter'] = EquipmentMaintenanceFilter(self.request.GET, queryset=self.queryset)
-#         return context
-
 class EquipmentDetailView(DetailView):
     template_name = 'equipmentList/equipment_detail.html'
     queryset = models.EQUIPMENT_DB.objects.all()

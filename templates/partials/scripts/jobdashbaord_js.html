@@ -1,0 +1,114 @@
+<script>
+  const backgroundColor = [
+    'rgba(255, 99, 132, 0.2)',
+    'rgba(54, 162, 235, 0.2)',
+    'rgba(255, 206, 86, 0.2)',
+    'rgba(75, 192, 192, 0.2)',
+    'rgba(153, 102, 255, 0.2)',
+    'rgba(255, 159, 64, 0.2)']
+  const borderColor = [
+    'rgba(255, 99, 132, 1)',
+    'rgba(54, 162, 235, 1)',
+    'rgba(255, 206, 86, 1)',
+    'rgba(75, 192, 192, 1)',
+    'rgba(153, 102, 255, 1)',
+    'rgba(255, 159, 64, 1)']
+
+  const line = document.getElementById('line')
+  const bar = document.getElementById('bar')
+  line.addEventListener('click', changeline)
+  bar.addEventListener('click', changebar)
+  const title = document.getElementById('title-page')
+  title.innerHTML = 'Jobs dashboard'
+
+
+  const ctxpie_client = document.getElementById('myChartpie_client').getContext('2d');
+  const ctxpie_bl = document.getElementById('myChartpie_bl').getContext('2d');
+  const ctx2 = document.getElementById('myChartbl').getContext('2d');
+  const ctx = document.getElementById('myChart').getContext('2d');
+  const myChart2 = new Chart(ctx2, {
+      type: 'bar',
+      data: {
+          labels: [{% for key, _ in all_bl_count.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Count of jobs',
+              data: [{% for _, value in all_bl_count.items %} {{ value }}, {% endfor %}],
+              backgroundColor: backgroundColor ,
+              borderColor: borderColor,
+              borderWidth: 1
+          }]
+      },
+  options: {
+    scales: {
+      y: {beginAtZero: true}
+    }
+  }
+  });
+  const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+          labels: [{% for key, value in all_clients.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Count of jobs',
+              data: [{% for key, value in all_clients.items %} {{ value }}, {% endfor %}],
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
+              borderWidth: 1
+          }]
+      },
+      options: {
+          scales: {
+              y: {beginAtZero: true}
+          }
+      }
+  });
+  const myChartpie_client = new Chart(ctxpie_client, {
+      type: 'pie',
+      data: {
+          labels: [{% for key, value in all_clients.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Count of jobs',
+              data: [{% for key, value in all_clients.items %} {{ value }}, {% endfor %}],
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
+              borderWidth: 1,
+              hoverOffset:10
+          }]
+      },
+      options: {
+          scales: {
+              y: {beginAtZero: true}
+          }
+      }
+  });
+
+  const myChartpie_bl = new Chart(ctxpie_bl, {
+      type: 'pie',
+      data: {
+          labels: [{% for key, value in all_bl_count.items %} '{{key}}', {% endfor %}],
+          datasets: [{
+              label: 'Count of jobs',
+              data: [{% for key, value in all_bl_count.items %} {{ value }}, {% endfor %}],
+              backgroundColor: backgroundColor,
+              borderColor: borderColor,
+              borderWidth: 1,
+              hoverOffset:10
+          }]
+      },
+      options: {
+          scales: {
+              y: {beginAtZero: true}
+          }
+      }
+  });
+  function changeline() {
+    myChart.config.type = 'line'
+    myChart.update()
+  }
+  function changebar() {
+    myChart.config.type = 'bar'
+    myChart.update()
+  }
+
+
+</script>
