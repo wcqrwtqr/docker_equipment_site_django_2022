@@ -1,4 +1,6 @@
 <script>
+  const border_hover_width = 2
+  const bar_border_radius = 5
   const allColors = [
       'rgba(255, 99, 132, 0.2)',
       'rgba(54, 162, 235, 0.2)',
@@ -24,22 +26,15 @@
   const myChart = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: [
-              {% for key,_ in all_main_count.items  %}
-              // Add single quote and , after the for loop so the values 
-              '{{key}}',
-              {% endfor %}
-          ],
+          labels: [{% for key,_ in all_main_count.items  %} '{{key}}', {% endfor %}],
           datasets: [{
               label: 'Average of equipment cost',
-              data: [
-                  {% for _,value in all_main_count.items  %}
-                  {{value}},
-                  {% endfor %}
-              ],
+              data: [{% for _,value in all_main_count.items  %} {{value}}, {% endfor %}],
               backgroundColor: allColors ,
               borderColor: allColorBoarder,
-              borderWidth: 1
+              borderRadius: bar_border_radius,
+              borderWidth: 1,
+              hoverBorderWidth: border_hover_width
           }]
       },
       options: {
@@ -50,18 +45,11 @@
           }
       }
   });
-
-
   const ctxpie = document.getElementById('myChartpie').getContext('2d');
   const myChart_pie = new Chart(ctxpie, {
       type: 'pie',
       data: {
-          labels: [
-              {% for key,_ in all_main_count.items  %}
-              // Add single quote and , after the for loop so the values 
-              '{{key}}',
-              {% endfor %}
-          ],
+          labels: [{% for key,_ in all_main_count.items  %} '{{key}}', {% endfor %}],
           datasets: [{
               label: 'Average of equipment cost',
               data: [

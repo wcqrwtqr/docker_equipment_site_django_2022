@@ -7,27 +7,35 @@
     {% include 'partials/nav_dash.html' %}
     <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       {% include 'partials/nav_dash_2.html' %}
-      <button type="button" class="btn btn-outline-dark" id='bar'>Bar</button>
-      <button type="button" class="btn btn-outline-dark" id='line'>Line</button>
+      <!-- I've hidden the button isntead of removing it in case I need to use it in the future -->
+      <button type="button" class="btn btn-outline-dark" style="display: none;" id='bar'>Bar</button>
+      <button type="button" class="btn btn-outline-dark" style="display: none;" id='line'>Line</button>
       <div class="row">
+        <h5>Sum of acquisition cost vs count</h5>
         <canvas id="myChart3" width="300" height="150"></canvas>
         <!-- Cost of asset acquisition vs count -->
-        <br />
+        <hr/>
+        <h5>Sum of NBV cost vs count</h5>
         <canvas id="myChart4" width="300" height="150"></canvas>
         <!-- Cost of asset NBV vs count -->
-        <br />
+        <hr/>
+        <h5>Sum of NBV cost vs sum of acquisition sum</h5>
         <canvas id="myChart5" width="300" height="150"></canvas>
         <!-- Cost of asset NBV vs acquisition -->
-        <br />
-        <canvas id="myChart2" width="300" height="150"></canvas>
+        <!-- I've hidden the button isntead of removing it in case I need to use it in the future -->
+        <canvas style="display: none;" id="myChart2" width="300" height="150"></canvas>
         <!-- Average of asset NBV TODO try and remove this as its not informative-->
-        <br />
-        <canvas id="myChart" width="300" height="150"></canvas>
+        <!-- <br /> -->
+        <!-- I've hidden the button isntead of removing it in case I need to use it in the future -->
+        <canvas style="display: none;" id="myChart" width="300" height="150"></canvas>
         <!-- Average of asset acquisition TODO try and remove this as its not informative-->
+        <hr/>
         <div class="col">
+          <h5>Count of equipmenet</h5>
           <canvas id="myChart_pie_count" width="300" height="150"></canvas>
         </div>
         <div class="col">
+          <h5>Acquisision cost</h5>
           <canvas id="myChart_pie_acq_cost" width="300" height="150"></canvas>
         </div>
       </div>

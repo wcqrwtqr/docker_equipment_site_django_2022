@@ -1,5 +1,7 @@
 <script>
 
+  const border_hover_width = 2
+  const bar_border_radius = 5
   const allColors = [
     'rgba(255, 99, 132, 0.2)',
     'rgba(54, 162, 235, 0.2)',
@@ -44,7 +46,9 @@
               data: [{% for _, value in all_equipment_blbu_avg.items %} {{ value.av }}, {% endfor %}],
               backgroundColor: allColors,
               borderColor: allColorsticks,
-              borderWidth: 1
+              borderRadius: bar_border_radius,
+              borderWidth: 1,
+              hoverBorderWidth: border_hover_width
           }]
       },
       options: {
@@ -60,28 +64,35 @@
               data: [{% for _, value in all_equipment_nvb_blbu_avg.items %} {{ value.av }}, {% endfor %}],
               backgroundColor: allColors,
               borderColor: allColorsticks,
-              borderWidth: 1 
+              borderRadius: bar_border_radius,
+              borderWidth: 1,
+              hoverBorderWidth: border_hover_width
           }]
       },
       options: {scales: {y: {beginAtZero: true}}} 
   });
   const myChart3 = new Chart(ctx3, {
-      type: 'bar',
+      // type: 'bar',
       data: {
           labels: [{% for key, _ in all_equipment_acq_blbu_sum.items %} '{{key}}', {% endfor %}],
           datasets: [{
+              type: 'bar',
               label: 'Sum of equipment cost of acquisition',
               yAxisID: 'A',
               data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
               backgroundColor: allColors,
               borderColor: allColorsticks,
-              borderWidth: 1
+              borderRadius: bar_border_radius,
+              borderWidth: 1,
+              hoverBorderWidth: border_hover_width
           }, {
+              type: 'line',
               label: 'Count of equipment',
               yAxisID: 'B',
               data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.count }}, {% endfor %}],
               backgroundColor: allColors2nd, 
-              borderColor: allColorsticks,
+              // borderColor: allColorsticks,
+              // borderRadius: bar_border_radius,
               borderWidth: 1
           }]
       },
@@ -93,22 +104,27 @@
       }
   });
   const myChart4 = new Chart(ctx4, {
-      type: 'bar',
+      // type: 'bar',
       data: {
           labels: [{% for key, _ in all_equipment_nbv_blbu_sum.items %} '{{key}}', {% endfor %}],
           datasets: [{
+              type: 'bar',
               label: 'Sum of equipment NBV',
               yAxisID: 'A',
               data: [{% for _, value in all_equipment_nbv_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
               backgroundColor:allColors, 
               borderColor: allColorsticks, 
-              borderWidth: 1
+              borderRadius: bar_border_radius,
+              borderWidth: 1,
+              hoverBorderWidth: border_hover_width
           }, {
+              type: 'line',
               label: 'Count of equipment',
               yAxisID: 'B',
               data: [{% for _, value in all_equipment_nbv_blbu_sum.items %} {{ value.count }}, {% endfor %}],
               backgroundColor: allColors2nd,
-              borderColor:allColorsticks, 
+              // borderColor:allColorsticks, 
+              // borderRadius: bar_border_radius,
               borderWidth: 1
           }]
       },
@@ -128,13 +144,17 @@
               data: [{% for _, value in all_equipment_nbv_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
               backgroundColor: allColors,
               borderColor: allColorsticks,
-              borderWidth: 1
+              borderRadius: bar_border_radius,
+              borderWidth: 1,
+              hoverBorderWidth: border_hover_width
           }, {
               label: 'Sum of equipment Acquistion cost',
               data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
               backgroundColor: allColors2nd,
               borderColor: allColorsticks,
-              borderWidth: 1
+              borderRadius: bar_border_radius,
+              borderWidth: 1,
+              hoverBorderWidth: border_hover_width
           }]
       },
       options: {
@@ -148,15 +168,12 @@
           datasets: [{
               label: 'Count of equipment',
               data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.count }}, {% endfor %}],
-              backgroundColor: allColors,
+              backgroundColor: allColors2nd,
               borderColor: allColorsticks,
               borderWidth: 1,
               hoverOffset: 10
           }]
       },
-      options: {
-          scales: {y: {beginAtZero: true}}
-      } 
   });
   const myChart_pie_acq_cost = new Chart(ctx_pie_acq_cost, {
       type: 'pie',
@@ -165,15 +182,12 @@
           datasets: [{
               label: 'Count of equipment',
               data: [{% for _, value in all_equipment_acq_blbu_sum.items %} {{ value.sum }}, {% endfor %}],
-              backgroundColor: allColors,
+              backgroundColor: allColors2nd,
               borderColor: allColorsticks,
               borderWidth: 1,
               hoverOffset: 10
           }]
       },
-      options: {
-          scales: {y: {beginAtZero: true}}
-      } 
   });
 
   function changeline() {
